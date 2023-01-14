@@ -1,0 +1,10 @@
+.place__icon {
+  width: 22px;
+  height: 19px;
+  margin: 0;
+  background-image: url(./../../../images/place-icon-22-19.svg);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 22px 19px;
+  padding-right: 20px;
+}

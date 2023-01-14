@@ -13,3 +13,14 @@
 @import url(../blocks/profile/__info/profile__info.css);
 @import url(../blocks/profile/__name/profile__name.css);
 @import url(../blocks/profile/__specialty/profile__specialty.css);
+
+
+@import url(../blocks/places/places.css);
+@import url(../blocks/places/__card/places__card.css);
+
+@import url(../blocks/place/place.css);
+@import url(../blocks/place/__item/place__item.css);
+@import url(../blocks/place/__img-container/place__img-container.css);
+@import url(../blocks/place/__img/place__img.css);
+@import url(../blocks/place/__title/place__title.css);
+@import url(../blocks/place/__icon/place__icon.css);

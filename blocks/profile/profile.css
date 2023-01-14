@@ -28,7 +28,7 @@
     max-width: 522px;
     grid-auto-flow: column;
     grid-template-columns: 1fr;
-    grid-template-rows: auto auto auto;
+    grid-template-rows: repeat(3, auto);
     row-gap: 26px;
     justify-items: center;
   }
