@@ -5,7 +5,7 @@
   display: grid;
   grid-template-columns: 1fr;
   justify-content: flex-start;
-  font-family: 'Inter';
+  font-family: 'Inter', 'Arial', sans-serif;
   font-style: normal;
   color: #545454;
   padding-bottom: 60px;
