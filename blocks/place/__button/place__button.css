@@ -10,6 +10,7 @@
   background-size: 22px 19px;
   margin-right: 20px;
   cursor: pointer;
+  padding: 0;
 }
 
 .place__button:hover {
