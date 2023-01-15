@@ -12,6 +12,7 @@
   justify-self: flex-end;
   align-self: center;
   transition: opacity .18s linear;
+  cursor: pointer;
 }
 
 .profile__add-button:hover {
