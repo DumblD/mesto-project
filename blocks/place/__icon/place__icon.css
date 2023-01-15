@@ -8,3 +8,7 @@
   background-size: 22px 19px;
   padding-right: 20px;
 }
+
+.place__icon:hover {
+  opacity: .5;
+}

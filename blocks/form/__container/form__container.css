@@ -1,0 +1,22 @@
+.form__container {
+  width: 462px;
+  height: 362px;
+  display: grid;
+  grid-template-columns: max-content min-content;
+  grid-template-rows: min-content max-content;
+  position: relative;
+  top: -16px;
+  left: 16px;
+}
+
+@media screen and (max-width: 620px) {
+  .form__container {
+    width: 282px;
+    height: 342px;
+    grid-template-columns: 1fr;
+    grid-template-rows: min-content max-content;
+    row-gap: 16px;
+    top: -18px;
+    left: 0;
+  }
+}
