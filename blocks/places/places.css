@@ -1,0 +1,15 @@
+.places {
+  margin: 0 auto;
+  max-width: 880px;
+  width: 100%;
+  display: flex;
+  padding: 50px 0 66px;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+@media screen and (max-width: 560px) {
+  .places {
+    padding: 36px 0 48px;
+  }
+}

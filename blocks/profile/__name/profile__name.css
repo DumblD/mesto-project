@@ -1,0 +1,23 @@
+.profile__name {
+  margin: 0;
+  font-weight: 500;
+  font-size: 42px;
+  line-height: 48px;
+  align-self: flex-end;
+  position: relative;
+  top: 8px;
+}
+
+@media screen and (min-width: 560px) and (max-width: 768px) {
+  .profile__name {
+    font-size: clamp(28px, 5vw, 42px);
+    line-height: 1.12em;
+  }
+}
+
+@media screen and (max-width: 560px) {
+  .profile__name {
+    font-size: clamp(27px, 6vw, 32px);
+    line-height: 1.12em;
+  }
+}

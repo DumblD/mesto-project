@@ -1,0 +1,9 @@
+.form__item_el_specialty {
+  margin-bottom: 48px;
+}
+
+@media screen and (max-width: 620px) {
+  .form__item_el_specialty {
+    margin-bottom: 45px;
+  }
+}
