@@ -1,4 +1,4 @@
-.form__container {
+.popup__container {
   width: 462px;
   height: 362px;
   display: grid;
@@ -10,7 +10,7 @@
 }
 
 @media screen and (max-width: 620px) {
-  .form__container {
+  .popup__container {
     width: 282px;
     height: 342px;
     grid-template-columns: 1fr;
