@@ -11,6 +11,7 @@
   align-self: flex-end;
   transition: opacity .18s linear;
   cursor: pointer;
+  padding: 0;
 }
 
 .profile__edit-button:hover {
