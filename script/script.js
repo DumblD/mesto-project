@@ -1,17 +1,18 @@
 let profileName = document.querySelector('.profile__name');
 let profileSpecialty = document.querySelector('.profile__specialty');
 let editProfileButton = document.querySelector('.profile__edit-button');
-let placeButton = document.querySelector('.place__button');
+let placeButtons = document.querySelectorAll('.place__button');
 let popup = document.querySelector('.popup');
 let closeButton = popup.querySelector('.form__close-button');
 let formElement = document.querySelector('.form__edit-form');
 let nameInput = formElement.querySelector('.form__item_el_name');
 let jobInput = formElement.querySelector('.form__item_el_specialty');
 
-function likeAction() {
-  placeButton.classList.toggle('place__button_active');
-}
-placeButton.addEventListener('click', likeAction);
+placeButtons.forEach(function(el) {
+  el.addEventListener("click", function() {
+      el.classList.toggle('place__button_active');
+  });
+});
 
 function editProfile() {
   nameInput.value = profileName.textContent;
