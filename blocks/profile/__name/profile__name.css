@@ -4,8 +4,6 @@
   font-size: 42px;
   line-height: 48px;
   align-self: flex-end;
-  position: relative;
-  top: 8px;
 }
 
 @media screen and (min-width: 560px) and (max-width: 768px) {
