@@ -2,7 +2,7 @@
   margin: 0 auto;
   max-width: 880px;
   width: 100%;
-  padding-bottom: 50px;
+  padding: 40px 0 50px;
   display: grid;
   grid-template-columns: 120px minmax(312px, 1fr) min-content;
   grid-template-rows: auto;
@@ -17,7 +17,7 @@
 
 @media screen and (min-width: 320px) and (max-width: 768px) {
   .profile {
-    padding-bottom: 36px;
+    padding: 42px 0 36px;
     max-width: 730px;
     width: calc(100vw - 19px*2);
   }
@@ -36,6 +36,6 @@
 
 @media screen and (max-width: 320px) {
   .profile {
-    padding-bottom: 36px;
+    padding: 42px 0 36px;
   }
 }
