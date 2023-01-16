@@ -15,10 +15,10 @@
   }
 }
 
-@media screen and (min-width: 320px) and (max-width: 768px) {
+@media screen and (max-width: 768px) {
   .profile {
-    padding: 42px 0 36px;
     max-width: 730px;
+    padding: 42px 0 36px;
     width: calc(100vw - 19px*2);
   }
 }
@@ -31,11 +31,5 @@
     grid-template-rows: repeat(3, auto);
     row-gap: 26px;
     justify-items: center;
-  }
-}
-
-@media screen and (max-width: 320px) {
-  .profile {
-    padding: 42px 0 36px;
   }
 }
