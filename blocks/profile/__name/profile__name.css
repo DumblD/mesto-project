@@ -4,11 +4,21 @@
   font-size: 42px;
   line-height: 48px;
   align-self: flex-end;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  max-width: 294px;
+}
+
+@media screen and (min-width: 560px) and (max-width: 668px) {
+  .profile__name {
+    max-width: 234px;
+  }
 }
 
 @media screen and (min-width: 560px) and (max-width: 768px) {
   .profile__name {
-    font-size: clamp(28px, 5vw, 42px);
+    font-size: clamp(30px, 5vw, 42px);
     line-height: 1.12em;
   }
 }
@@ -17,5 +27,6 @@
   .profile__name {
     font-size: clamp(27px, 6vw, 32px);
     line-height: 1.12em;
+    max-width: 258px;
   }
 }

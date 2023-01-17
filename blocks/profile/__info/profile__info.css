@@ -12,6 +12,12 @@
   grid-template-rows: auto auto;
 }
 
+@media screen and (min-width: 560px) and (max-width: 768px) {
+  .profile__info {
+    column-gap: 9px;
+  }
+}
+
 @media screen and (max-width: 560px) {
   .profile__info {
     padding: 0;
