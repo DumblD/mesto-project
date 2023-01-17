@@ -1,4 +1,4 @@
-.place__item {
+.places__item {
   display: grid;
   grid-template-columns: 1fr min-content;
   grid-template-rows: min-content max-content;
