@@ -7,18 +7,18 @@ let formElement = document.querySelector('.popup__edit-form');
 let nameInput = formElement.querySelector('.form__item_el_name');
 let jobInput = formElement.querySelector('.form__item_el_specialty');
 
-function editProfile() {
+function editProfile() { // функция открытия и получения данных профиля в input-ы формы редактирования информации
   nameInput.value = profileName.textContent;
   jobInput.value = profileSpecialty.textContent;
-  popup.classList.add('popup_opened');
+  popup.classList.add('popup_opened'); // отвечает за открытие popup
 }
 
-function closePopup() {
+function closePopup() { // функция закрытия формы редактирования профиля
   popup.classList.remove('popup_opened');
 }
 
-function handleFormSubmit (evt) {
-  evt.preventDefault();
+function handleFormSubmit (evt) { // функция отправки введенной пользователем информации профиля на страницу
+  evt.preventDefault(); // отмена стандартной отправки формы
 
   profileName.textContent = nameInput.value;
   profileSpecialty.textContent = jobInput.value;
