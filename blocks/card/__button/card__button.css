@@ -1,4 +1,4 @@
-.place__button {
+.card__button {
   width: 22px;
   height: 19px;
   margin: 0;
@@ -13,10 +13,10 @@
   padding: 0;
 }
 
-.place__button:hover {
+.card__button:hover {
   opacity: .5;
 }
 
-.place__button:active {
+.card__button:active {
   background-image: url(./../../../images/place-icon-22-19-active.svg);
 }

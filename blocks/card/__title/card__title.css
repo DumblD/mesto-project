@@ -1,4 +1,4 @@
-.place__title {
+.card__title {
   margin: 0;
   padding-left: 21px;
   text-overflow: ellipsis;
@@ -12,7 +12,7 @@
 }
 
 @media screen and (min-width: 768px) and (max-width: 1024px) {
-  .place__title {
+  .card__title {
     width: 90%;
   }
 }
