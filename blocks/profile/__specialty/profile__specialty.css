@@ -27,7 +27,7 @@
   .profile__specialty {
     align-self: flex-start;
     justify-self: center;
-    padding-bottom: 10px;
+    padding-bottom: 6px;
     font-size: clamp(14px, 3vw, 18px);
     line-height: 1.18em;
     max-width: 272px;

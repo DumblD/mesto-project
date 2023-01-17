@@ -34,5 +34,6 @@
     grid-template-columns: 1fr;
     grid-auto-rows: auto;
     justify-items: center;
+    row-gap: 19px;
   }
 }
