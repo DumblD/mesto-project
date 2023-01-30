@@ -18,14 +18,23 @@ function editProfile() { // функция открытия и получени�
   nameInput.value = profileName.textContent;
   jobInput.value = profileSpecialty.textContent;
   popupEditProfile.classList.add('popup_opened'); // отвечает за открытие popup
+  setTimeout(function() {
+    popupEditProfile.style.opacity = "1";
+  }, 100);
 }
 
 function addPlace() { // функция открытия формы для добавления новой карточки с местом
   popupAddPlace.classList.add('popup_opened'); // отвечает за открытие popup
+  setTimeout(function() {
+    popupAddPlace.style.opacity = "1";
+  }, 100);
 }
 
 function closePopup(popupName) { // функция закрытия формы редактирования профиля
-  popupName.classList.remove('popup_opened');
+  popupName.style.opacity = "0";
+  setTimeout(function() {
+    popupName.classList.remove('popup_opened');
+  }, 500);
 }
 
 function editProfileFormSubmit (ev) { // функция отправки введенной пользователем информации профиля на страницу
