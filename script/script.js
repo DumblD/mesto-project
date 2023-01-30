@@ -1,30 +1,48 @@
 let profileName = document.querySelector('.profile__name');
 let profileSpecialty = document.querySelector('.profile__specialty');
 let ProfileEditButton = document.querySelector('.profile__edit-button');
-let popup = document.querySelector('.popup');
-let ButtonClose = popup.querySelector('.popup__close-button');
-let formElement = document.querySelector('.popup__edit-form');
-let nameInput = formElement.querySelector('.form__item_el_name');
-let jobInput = formElement.querySelector('.form__item_el_specialty');
+let popupEditProfile = document.querySelector('.popup-edit-profile');
+let ButtonClose_EditProfile = popupEditProfile.querySelector('.popup-edit-profile__close-button');
+let form_EditProfile = document.querySelector('.popup__edit-profile-form');
+let nameInput = form_EditProfile.querySelector('.form__item_el_name');
+let jobInput = form_EditProfile.querySelector('.form__item_el_specialty');
+
+let ProfileAddButton = document.querySelector('.profile__add-button');
+let popupAddPlace = document.querySelector('.popup-add-place');
+let ButtonClose_AddPlace = popupAddPlace.querySelector('.popup-add-place__close-button');
+let form_AddPlace = document.querySelector('.popup__add-place-form');
+let placeTitleInput = form_AddPlace.querySelector('.form__item_el_placeTitle');
+let placeLinkInput = form_AddPlace.querySelector('.form__item_el_placeLink');
 
 function editProfile() { // функция открытия и получения данных профиля в input-ы формы редактирования информации
   nameInput.value = profileName.textContent;
   jobInput.value = profileSpecialty.textContent;
-  popup.classList.add('popup_opened'); // отвечает за открытие popup
+  popupEditProfile.classList.add('popup_opened'); // отвечает за открытие popup
 }
 
-function closePopup() { // функция закрытия формы редактирования профиля
-  popup.classList.remove('popup_opened');
+function addPlace() { // функция открытия формы для добавления новой карточки с местом
+  popupAddPlace.classList.add('popup_opened'); // отвечает за открытие popup
 }
 
-function handleFormSubmit (evt) { // функция отправки введенной пользователем информации профиля на страницу
-  evt.preventDefault(); // отмена стандартной отправки формы
+function closePopup(popupName) { // функция закрытия формы редактирования профиля
+  popupName.classList.remove('popup_opened');
+}
 
+function editProfileFormSubmit (ev) { // функция отправки введенной пользователем информации профиля на страницу
+  ev.preventDefault(); // отмена стандартной отправки формы
   profileName.textContent = nameInput.value;
   profileSpecialty.textContent = jobInput.value;
-  closePopup()
+  closePopup(popupEditProfile);
+}
+
+function addPlaceFormSubmit (ev) { // функция отправки введенной пользователем информации профиля на страницу
+  ev.preventDefault(); // отмена стандартной отправки формы
+  closePopup(popupAddPlace);
 }
 
 ProfileEditButton.addEventListener('click', editProfile);
-ButtonClose.addEventListener('click', closePopup);
-formElement.addEventListener('submit', handleFormSubmit);
+ProfileAddButton.addEventListener('click', addPlace);
+ButtonClose_EditProfile.addEventListener('click', () => closePopup(popupEditProfile));
+ButtonClose_AddPlace.addEventListener('click', () => closePopup(popupAddPlace));
+form_EditProfile.addEventListener('submit', editProfileFormSubmit);
+form_AddPlace.addEventListener('submit', addPlaceFormSubmit);
