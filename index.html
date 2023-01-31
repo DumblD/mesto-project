@@ -80,6 +80,17 @@
           <h3 class="card__title">Карачаевск&#8209;Черкесская Республика</h3>
           <button aria-label="поставить лайк" type="button" class="card__button"></button>
         </li>
+
+        <template id="card-template">
+          <li class="card places__item">
+            <picture class="card__img-container">
+              <source media="(max-width:560px) and (min-width: 460px)" srcset="./images/places-karachaevsk-322-322.jpg">
+              <img src="./images/places-karachaevsk-282-282.jpg" alt="карачаевск" class="card__img">
+            </picture>
+            <h3 class="card__title">Карачаевск&#8209;Черкесская Республика</h3>
+            <button aria-label="поставить лайк" type="button" class="card__button"></button>
+          </li>
+        </template>
       </ul>
     </section>
 
@@ -87,10 +98,10 @@
       <p class="footer__copyright">&COPY; 2023. Артем Зинин</p>
     </footer>
 
-    <div class="popup popup-edit-profile">
+    <div class="popup">
       <div class="popup__container">
-        <button type="button" class="popup__close-button popup-edit-profile__close-button"></button>
-        <form name="edit-form" class="form popup__edit-profile-form">
+        <button type="button" class="popup__close-button"></button>
+        <form name="edit-profile-form" class="form popup__edit-profile-form">
           <h3 class="form__title">Редактировать профиль</h3>
           <fieldset class="form__input-container">
             <input type="text" name="name" id="name" class="form__item form__item_el_name" required placeholder="Введите имя">
@@ -98,13 +109,8 @@
           </fieldset>
           <button type="submit" class="form__button">Сохранить</button>
         </form>
-      </div>
-    </div>
 
-    <div class="popup popup-add-place">
-      <div class="popup__container">
-        <button type="button" class="popup__close-button popup-add-place__close-button"></button>
-        <form name="edit-form" class="form popup__add-place-form">
+        <form name="add-place-form" class="form popup__add-place-form">
           <h3 class="form__title">Новое место</h3>
           <fieldset class="form__input-container">
             <input type="text" name="placeTitle" id="placeTitle" class="form__item form__item_el_placeTitle" required placeholder="Название">
@@ -115,6 +121,6 @@
       </div>
     </div>
   </main>
-  <script src="./script/script.js"></script>
+  <script src="./scripts/index.js"></script>
 </body>
 </html>
