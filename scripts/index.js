@@ -47,7 +47,7 @@ const initialCards = [
 function openPopup() { // функция открытия popup
   popupElement.classList.add('popup_opened'); // отвечает за открытие popup
   setTimeout(function() {
-    popupElement.style.opacity = "1";
+    popupElement.style.opacity = "1"; // плавное открытие popup через opacity
   }, 100);
 }
 
@@ -63,7 +63,7 @@ function editProfile() { // функция получения данных пр�
   jobInput.value = profileSpecialty.textContent;
 }
 
-function addCardFromBox (boxMassive) {
+function addCardFromBox (boxMassive) { // функция добавления карточек-мест из массива данных (название, ссылка на картинку)
   boxMassive.forEach(el => {
       const cardElement = templateElement.querySelector('.card').cloneNode(true);
       const cardLikeButton = cardElement.querySelector('.card__like-button');
@@ -84,7 +84,7 @@ function addCardFromBox (boxMassive) {
   });
 }
 
-function addCard() { // функция добавления новой карточки с местом
+function addCard() { // функция добавления новой карточки с местом - добавляет пользователь
   if (profileEditForm.classList.contains('form_opened')) {
     profileEditForm.classList.remove('form_opened');
     placeAddForm.classList.add('form_opened');
@@ -112,7 +112,7 @@ function addCard() { // функция добавления новой карт�
 }
 
 function closePopup() { // функция закрытия popup
-  popupElement.style.opacity = "0";
+  popupElement.style.opacity = "0"; // плавное закрытие popup через opacity
   setTimeout(function() {
     popupElement.classList.remove('popup_opened');
   }, 500);
@@ -125,14 +125,15 @@ function editProfileFormSubmit (ev) { // функция отправки вве�
   closePopup();
 }
 
-function addPlaceFormSubmit (ev) { // функция отправки введенной пользователем информации профиля на страницу
+function addPlaceFormSubmit (ev) { // функция, вызываемая подтверждении пользователем введенных данных для добавления новой карточки
   ev.preventDefault(); // отмена стандартной отправки формы
-  addCard();
+  addCard(); // функция добавления новой карточки
   closePopup();
 }
 
-profileEditButton.addEventListener('click', editProfile);
-profileAddButton.addEventListener('click', addCard);
-buttonClose.addEventListener('click', closePopup);
-profileEditForm.addEventListener('submit', editProfileFormSubmit);
-placeAddForm.addEventListener('submit', addPlaceFormSubmit);
+addCardFromBox(initialCards); // функция добавления карточек на страницу по данным из массива (название, ссылка на картинку)
+profileEditButton.addEventListener('click', editProfile); // слушатель на кнопку редактировать профиль
+profileAddButton.addEventListener('click', addCard); // слушатель на кнопку "+" (добавить карточку)
+buttonClose.addEventListener('click', closePopup); // слушатель на кнопку закрытия popup
+profileEditForm.addEventListener('submit', editProfileFormSubmit); // слушатель на подтверждение введенных данных формы для редактирования профиля
+placeAddForm.addEventListener('submit', addPlaceFormSubmit); // слушатель на подтверждение введенных данных формы для создания новой карточки
