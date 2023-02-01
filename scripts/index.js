@@ -63,6 +63,16 @@ function editProfile() { // функция получения данных пр�
   jobInput.value = profileSpecialty.textContent;
 }
 
+function editNewCardData() { // функция открытия формы для добавления новой карточки
+  if (profileEditForm.classList.contains('form_opened')) {
+    profileEditForm.classList.remove('form_opened');
+    placeAddForm.classList.add('form_opened');
+  } else {
+    placeAddForm.classList.add('form_opened');
+  }
+  openPopup()
+}
+
 function addCardFromBox (boxMassive) { // функция добавления карточек-мест из массива данных (название, ссылка на картинку)
   boxMassive.forEach(el => {
       const cardElement = templateElement.querySelector('.card').cloneNode(true);
@@ -85,14 +95,6 @@ function addCardFromBox (boxMassive) { // функция добавления к
 }
 
 function addCard() { // функция добавления новой карточки с местом - добавляет пользователь
-  if (profileEditForm.classList.contains('form_opened')) {
-    profileEditForm.classList.remove('form_opened');
-    placeAddForm.classList.add('form_opened');
-  } else {
-    placeAddForm.classList.add('form_opened');
-  }
-  openPopup()
-
   const cardElement = templateElement.querySelector('.card').cloneNode(true);
   const cardLikeButton = cardElement.querySelector('.card__like-button');
   const cardDelButton = cardElement.querySelector('.card__del-button');
@@ -128,12 +130,14 @@ function editProfileFormSubmit (ev) { // функция отправки вве�
 function addPlaceFormSubmit (ev) { // функция, вызываемая подтверждении пользователем введенных данных для добавления новой карточки
   ev.preventDefault(); // отмена стандартной отправки формы
   addCard(); // функция добавления новой карточки
+  placeTitleInput.value = ''; // очистка полей формы перед закрытием popup
+  placeLinkInput.value = '';
   closePopup();
 }
 
 addCardFromBox(initialCards); // функция добавления карточек на страницу по данным из массива (название, ссылка на картинку)
 profileEditButton.addEventListener('click', editProfile); // слушатель на кнопку редактировать профиль
-profileAddButton.addEventListener('click', addCard); // слушатель на кнопку "+" (добавить карточку)
+profileAddButton.addEventListener('click', editNewCardData); // слушатель на кнопку "+" (добавить карточку)
 buttonClose.addEventListener('click', closePopup); // слушатель на кнопку закрытия popup
 profileEditForm.addEventListener('submit', editProfileFormSubmit); // слушатель на подтверждение введенных данных формы для редактирования профиля
 placeAddForm.addEventListener('submit', addPlaceFormSubmit); // слушатель на подтверждение введенных данных формы для создания новой карточки
