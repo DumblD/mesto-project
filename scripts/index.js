@@ -132,7 +132,7 @@ function addPlaceFormSubmit (ev) { // функция отправки введе
 }
 
 profileEditButton.addEventListener('click', editProfile);
-profileAddButton.addEventListener('click', addPlace);
+profileAddButton.addEventListener('click', addCard);
 buttonClose.addEventListener('click', closePopup);
 profileEditForm.addEventListener('submit', editProfileFormSubmit);
 placeAddForm.addEventListener('submit', addPlaceFormSubmit);
