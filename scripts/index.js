@@ -14,6 +14,36 @@ const placeAddForm = document.querySelector('.popup__add-place-form');
 const placeTitleInput = placeAddForm.querySelector('.form__item_el_placeTitle');
 const placeLinkInput = placeAddForm.querySelector('.form__item_el_placeLink');
 
+const cardsContainer = document.querySelector('.places__container');
+const templateElement = document.querySelector('#card-template').content;
+
+const initialCards = [
+  {
+    name: 'Архыз',
+    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg'
+  },
+  {
+    name: 'Челябинская область',
+    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/chelyabinsk-oblast.jpg'
+  },
+  {
+    name: 'Иваново',
+    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/ivanovo.jpg'
+  },
+  {
+    name: 'Камчатка',
+    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kamchatka.jpg'
+  },
+  {
+    name: 'Холмогорский район',
+    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kholmogorsky-rayon.jpg'
+  },
+  {
+    name: 'Байкал',
+    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg'
+  }
+];
+
 function openPopup() { // функция открытия popup
   popupElement.classList.add('popup_opened'); // отвечает за открытие popup
   setTimeout(function() {
@@ -33,7 +63,28 @@ function editProfile() { // функция получения данных пр�
   jobInput.value = profileSpecialty.textContent;
 }
 
-function addPlace() { // функция добавления новой карточки с местом
+function addCardFromBox (boxMassive) {
+  boxMassive.forEach(el => {
+      const cardElement = templateElement.querySelector('.card').cloneNode(true);
+      const cardLikeButton = cardElement.querySelector('.card__like-button');
+      const cardDelButton = cardElement.querySelector('.card__del-button');
+      const cardImg = cardElement.querySelector('.card__img');
+      const cardTitle = cardElement.querySelector('.card__title');
+      cardLikeButton.addEventListener('click', function () {
+          cardLikeButton.classList.toggle('card__like-button_active');
+      });
+      cardDelButton.addEventListener('click', function () {
+          const cardItem = cardDelButton.closest('.card');
+          cardItem.remove();
+      });
+      cardImg.src = el.link;
+      cardImg.alt = el.name.toLowerCase();
+      cardTitle.textContent = el.name;
+      cardsContainer.append(cardElement);
+  });
+}
+
+function addCard() { // функция добавления новой карточки с местом
   if (profileEditForm.classList.contains('form_opened')) {
     profileEditForm.classList.remove('form_opened');
     placeAddForm.classList.add('form_opened');
@@ -41,6 +92,23 @@ function addPlace() { // функция добавления новой карт
     placeAddForm.classList.add('form_opened');
   }
   openPopup()
+
+  const cardElement = templateElement.querySelector('.card').cloneNode(true);
+  const cardLikeButton = cardElement.querySelector('.card__like-button');
+  const cardDelButton = cardElement.querySelector('.card__del-button');
+  const cardImg = cardElement.querySelector('.card__img');
+  const cardTitle = cardElement.querySelector('.card__title');
+  cardLikeButton.addEventListener('click', function () {
+    cardLikeButton.classList.toggle('card__like-button_active');
+  });
+  cardDelButton.addEventListener('click', function () {
+    const cardItem = cardDelButton.closest('.card');
+    cardItem.remove();
+  });
+  cardImg.src = placeLinkInput.value;
+  cardImg.alt = placeTitleInput.value.toLowerCase();
+  cardTitle.textContent = placeTitleInput.value;
+  cardsContainer.prepend(cardElement);
 }
 
 function closePopup() { // функция закрытия popup
@@ -59,6 +127,7 @@ function editProfileFormSubmit (ev) { // функция отправки вве�
 
 function addPlaceFormSubmit (ev) { // функция отправки введенной пользователем информации профиля на страницу
   ev.preventDefault(); // отмена стандартной отправки формы
+  addCard();
   closePopup();
 }
 
