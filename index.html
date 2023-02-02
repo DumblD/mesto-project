@@ -54,6 +54,10 @@
           </fieldset>
           <button type="submit" class="form__button">Создать</button>
         </form>
+
+        <div class="popup__scaled-img-container">
+
+        </div>
       </div>
     </div>
   </main>
@@ -64,6 +68,12 @@
       <h3 class="card__title"></h3>
       <button aria-label="поставить лайк" type="button" class="card__like-button"></button>
     </li>
+  </template>
+  <template id="scaled-images-template">
+    <div class="popup__scaled-images scaled-images">
+      <img src="" alt="" class="scaled-images__img">
+      <h3 class="scaled-images__title"></h3>
+    </div>
   </template>
   <script src="./scripts/index.js"></script>
 </body>

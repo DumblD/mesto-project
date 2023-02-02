@@ -1,0 +1,17 @@
+.scaled-images__img {
+  max-width: 75vw;
+  max-height: 75vh;
+  object-fit: cover;
+}
+
+@media screen and (min-width: 480px) and (max-width: 620px) {
+  .scaled-images__img {
+    max-width: 382px;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .scaled-images__img {
+    max-width: 240px;
+  }
+}
