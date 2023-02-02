@@ -15,7 +15,9 @@ const placeTitleInput = placeAddForm.querySelector('.form__item_el_placeTitle');
 const placeLinkInput = placeAddForm.querySelector('.form__item_el_placeLink');
 
 const cardsContainer = document.querySelector('.places__container');
-const templateElement = document.querySelector('#card-template').content;
+const cardTemplateElement = document.querySelector('#card-template').content;
+const scaledImagesTemplateElement = document.querySelector('#scaled-images-template').content;
+const scaledImgContainer = document.querySelector('.popup__scaled-img-container');
 
 const initialCards = [
   {
@@ -75,7 +77,7 @@ function editNewCardData() { // функция открытия формы дл�
 
 function addCardFromBox (boxMassive) { // функция добавления карточек-мест из массива данных (название, ссылка на картинку)
   boxMassive.forEach(el => {
-      const cardElement = templateElement.querySelector('.card').cloneNode(true);
+      const cardElement = cardTemplateElement.querySelector('.card').cloneNode(true);
       const cardLikeButton = cardElement.querySelector('.card__like-button');
       const cardDelButton = cardElement.querySelector('.card__del-button');
       const cardImg = cardElement.querySelector('.card__img');
@@ -89,17 +91,31 @@ function addCardFromBox (boxMassive) { // функция добавления к
       });
       cardImg.src = el.link;
       cardImg.alt = el.name.toLowerCase();
+      cardImg.addEventListener('click', function () {
+        if (scaledImgContainer.childNodes.length > 0) {scaledImgContainer.replaceChildren();}
+        const scaledElement = scaledImagesTemplateElement.querySelector('.scaled-images').cloneNode(true);
+        const scaledImg = scaledElement.querySelector('.scaled-images__img');
+        const scaledImgTitle = scaledElement.querySelector('.scaled-images__title');
+        scaledImg.src = el.link;
+        scaledImgTitle.textContent = el.name;
+        scaledImgContainer.append(scaledElement);
+        scaledImgContainer.classList.add('popup__scaled-img-container_opened');
+        popupElement.classList.add('popup_change_opacity');
+        openPopup();
+    });
       cardTitle.textContent = el.name;
       cardsContainer.append(cardElement);
   });
 }
 
 function addCard() { // функция добавления новой карточки с местом - добавляет пользователь
-  const cardElement = templateElement.querySelector('.card').cloneNode(true);
+  const cardElement = cardTemplateElement.querySelector('.card').cloneNode(true);
   const cardLikeButton = cardElement.querySelector('.card__like-button');
   const cardDelButton = cardElement.querySelector('.card__del-button');
   const cardImg = cardElement.querySelector('.card__img');
   const cardTitle = cardElement.querySelector('.card__title');
+  const placeLinkInputValue = placeLinkInput.value; // сохраняем значения inputов сразу при создании карточки
+  const placeTitleInputValue = placeTitleInput.value;
   cardLikeButton.addEventListener('click', function () {
     cardLikeButton.classList.toggle('card__like-button_active');
   });
@@ -107,9 +123,21 @@ function addCard() { // функция добавления новой карт�
     const cardItem = cardDelButton.closest('.card');
     cardItem.remove();
   });
-  cardImg.src = placeLinkInput.value;
-  cardImg.alt = placeTitleInput.value.toLowerCase();
-  cardTitle.textContent = placeTitleInput.value;
+  cardImg.src = placeLinkInputValue;
+  cardImg.alt = placeTitleInputValue.toLowerCase();
+  cardImg.addEventListener('click', function () {
+    if (scaledImgContainer.childNodes.length > 0) {scaledImgContainer.replaceChildren();}
+    const scaledElement = scaledImagesTemplateElement.querySelector('.scaled-images').cloneNode(true);
+    const scaledImg = scaledElement.querySelector('.scaled-images__img');
+    const scaledImgTitle = scaledElement.querySelector('.scaled-images__title');
+    scaledImg.src = placeLinkInputValue;
+    scaledImgTitle.textContent = placeTitleInputValue;
+    scaledImgContainer.append(scaledElement);
+    scaledImgContainer.classList.add('popup__scaled-img-container_opened');
+    popupElement.classList.add('popup_change_opacity');
+    openPopup();
+});
+  cardTitle.textContent = placeTitleInputValue;
   cardsContainer.prepend(cardElement);
 }
 
@@ -118,6 +146,27 @@ function closePopup() { // функция закрытия popup
   setTimeout(function() {
     popupElement.classList.remove('popup_opened');
   }, 500);
+  if (profileEditForm.classList.contains('form_opened')) {
+    setTimeout(function() {
+      profileEditForm.classList.remove('form_opened');
+    }, 500);
+  }
+  if (placeAddForm.classList.contains('form_opened')) {
+    setTimeout(function() {
+      placeAddForm.classList.remove('form_opened');
+    }, 500);
+  }
+  if (scaledImgContainer.classList.contains('popup__scaled-img-container_opened')) {
+    scaledImgContainer.classList.remove('popup__scaled-img-container_opened');
+  }
+  if (scaledImgContainer.childNodes.length > 0) {
+    setTimeout(function() {
+      scaledImgContainer.replaceChildren();
+    }, 500);
+  }
+  if (popupElement.classList.contains('popup_change_opacity')) {
+    popupElement.classList.remove('popup_change_opacity');
+  }
 }
 
 function editProfileFormSubmit (ev) { // функция отправки введенной пользователем информации профиля на страницу
@@ -130,8 +179,8 @@ function editProfileFormSubmit (ev) { // функция отправки вве�
 function addPlaceFormSubmit (ev) { // функция, вызываемая подтверждении пользователем введенных данных для добавления новой карточки
   ev.preventDefault(); // отмена стандартной отправки формы
   addCard(); // функция добавления новой карточки
-  placeTitleInput.value = ''; // очистка полей формы перед закрытием popup
-  placeLinkInput.value = '';
+  placeLinkInput.value = ''; // очищаем поля ввода у формы добавления карточки перед закрытием
+  placeTitleInput.value = '';
   closePopup();
 }
 
