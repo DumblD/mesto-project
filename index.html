@@ -34,32 +34,46 @@
       <p class="footer__copyright">&COPY; 2023. Артем Зинин</p>
     </footer>
 
-    <div class="popup">
+    <div id="popupEditForm" class="popup">
       <div class="popup__container">
-        <button type="button" class="popup__close-button"></button>
+        <button type="button" id="closeButtonEditForm" class="popup__close-button"></button>
         <form name="edit-profile-form" class="form popup__edit-profile-form">
           <h3 class="form__title">Редактировать профиль</h3>
           <fieldset class="form__input-container">
-            <input type="text" name="name" id="name" class="form__item form__item_el_name" required placeholder="Введите имя">
-            <input type="text" name="specialty" id="specialty" class="form__item form__item_el_specialty" required placeholder="Введите информацию о себе">
+            <input type="text" name="name" id="name" class="form__item form__item_el_name" required
+              placeholder="Введите имя">
+            <input type="text" name="specialty" id="specialty" class="form__item form__item_el_specialty" required
+              placeholder="Введите информацию о себе">
           </fieldset>
           <button type="submit" class="form__button">Сохранить</button>
         </form>
+      </div>
+    </div>
 
+    <div id="popupAddForm" class="popup">
+      <div class="popup__container">
+        <button type="button" id="closeButtonAddForm" class="popup__close-button"></button>
         <form name="add-place-form" class="form popup__add-place-form">
           <h3 class="form__title">Новое место</h3>
           <fieldset class="form__input-container">
-            <input type="text" name="placeTitle" id="placeTitle" class="form__item form__item_el_placeTitle" required placeholder="Название">
-            <input type="text" name="placeLink" id="placeLink" class="form__item form__item_el_placeLink" required placeholder="Ссылка на картинку">
+            <input type="text" name="placeTitle" id="placeTitle" class="form__item form__item_el_placeTitle" required
+              placeholder="Название">
+            <input type="text" name="placeLink" id="placeLink" class="form__item form__item_el_placeLink" required
+              placeholder="Ссылка на картинку">
           </fieldset>
           <button type="submit" class="form__button">Создать</button>
         </form>
+      </div>
+    </div>
 
+    <div id="popupImgScaled" class="popup">
+      <div class="popup__container">
         <div class="popup__scaled-img-container">
 
         </div>
       </div>
     </div>
+
   </main>
   <template id="card-template">
     <li class="card places__item">
