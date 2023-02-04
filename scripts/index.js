@@ -64,41 +64,12 @@ function editNewCardData() { // функция открытия формы дл�
   openPopup(popupAddForm);
 }
 
-function addCardFromBox (boxMassive) { // функция добавления карточек-мест из массива данных (название, ссылка на картинку)
-  boxMassive.forEach(el => {
-      const cardElement = cardTemplateElement.querySelector('.card').cloneNode(true);
-      const cardLikeButton = cardElement.querySelector('.card__like-button');
-      const cardDelButton = cardElement.querySelector('.card__del-button');
-      const cardImg = cardElement.querySelector('.card__img');
-      const cardTitle = cardElement.querySelector('.card__title');
-      cardLikeButton.addEventListener('click', function () {
-          cardLikeButton.classList.toggle('card__like-button_active');
-      });
-      cardDelButton.addEventListener('click', function () {
-          const cardItem = cardDelButton.closest('.card');
-          cardItem.remove();
-      });
-      cardImg.src = el.link;
-      cardImg.alt = el.name.toLowerCase();
-      cardImg.addEventListener('click', function () {
-        scaledImg.src = el.link;
-        scaledImg.alt = el.name.toLowerCase();
-        scaledImgTitle.textContent = el.name;
-        openPopup(popupImgScaled);
-    });
-      cardTitle.textContent = el.name;
-      cardsContainer.append(cardElement);
-  });
-}
-
-function addCard() { // функция добавления новой карточки с местом - добавляет пользователь
+function createCard(el) {
   const cardElement = cardTemplateElement.querySelector('.card').cloneNode(true);
   const cardLikeButton = cardElement.querySelector('.card__like-button');
   const cardDelButton = cardElement.querySelector('.card__del-button');
   const cardImg = cardElement.querySelector('.card__img');
   const cardTitle = cardElement.querySelector('.card__title');
-  const placeLinkInputValue = placeLinkInput.value; // сохраняем значения inputов сразу при создании карточки
-  const placeTitleInputValue = placeTitleInput.value;
   cardLikeButton.addEventListener('click', function () {
     cardLikeButton.classList.toggle('card__like-button_active');
   });
@@ -106,16 +77,22 @@ function addCard() { // функция добавления новой карт�
     const cardItem = cardDelButton.closest('.card');
     cardItem.remove();
   });
-  cardImg.src = placeLinkInputValue;
-  cardImg.alt = placeTitleInputValue.toLowerCase();
+  cardImg.src = el.link;
+  cardImg.alt = el.name.toLowerCase();
+  cardTitle.textContent = el.name;
   cardImg.addEventListener('click', function () {
-    scaledImg.src = placeLinkInputValue;
-    scaledImg.alt = placeTitleInputValue.toLowerCase();
-    scaledImgTitle.textContent = placeTitleInputValue;
+    scaledImg.src = el.link;
+    scaledImg.alt = el.name.toLowerCase();
+    scaledImgTitle.textContent = el.name;
     openPopup(popupImgScaled);
   });
-  cardTitle.textContent = placeTitleInputValue;
-  cardsContainer.prepend(cardElement);
+  return cardElement
+}
+
+function addCardFromBox (boxMassive) { // функция добавления карточек-мест из массива данных (название, ссылка на картинку)
+  boxMassive.forEach ((el) => {
+    cardsContainer.append(createCard(el));
+  });
 }
 
 function closePopup(ev) { // функция закрытия popup
@@ -133,7 +110,10 @@ function editProfileFormSubmit (ev) { // функция отправки вве�
 
 function addPlaceFormSubmit (ev) { // функция, вызываемая при подтверждении пользователем введенных данных для добавления новой карточки
   ev.preventDefault(); // отмена стандартной отправки формы
-  addCard(); // функция добавления новой карточки
+  let valuesToCreateCard = new Object();
+  valuesToCreateCard.name = placeTitleInput.value; // сохраняем значения inputов, введеных пользователем
+  valuesToCreateCard.link = placeLinkInput.value;
+  cardsContainer.prepend(createCard(valuesToCreateCard)); // функция добавления новой карточки
   ev.target.reset(); // очищаем поля ввода у формы добавления карточки перед закрытием
   closePopup(ev);
 }
