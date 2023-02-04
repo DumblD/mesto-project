@@ -82,6 +82,7 @@ function addCardFromBox (boxMassive) { // функция добавления к
       cardImg.alt = el.name.toLowerCase();
       cardImg.addEventListener('click', function () {
         scaledImg.src = el.link;
+        scaledImg.alt = el.name.toLowerCase();
         scaledImgTitle.textContent = el.name;
         openPopup(popupImgScaled);
     });
@@ -109,6 +110,7 @@ function addCard() { // функция добавления новой карт�
   cardImg.alt = placeTitleInputValue.toLowerCase();
   cardImg.addEventListener('click', function () {
     scaledImg.src = placeLinkInputValue;
+    scaledImg.alt = placeTitleInputValue.toLowerCase();
     scaledImgTitle.textContent = placeTitleInputValue;
     openPopup(popupImgScaled);
   });
