@@ -66,14 +66,15 @@
       </div>
     </div>
 
-    <div id="popupImgScaled" class="popup">
+    <div id="popupImgScaled" class="popup popup_change_opacity">
       <div class="popup__container">
-        <div class="popup__scaled-img-container">
-
+        <button type="button" id="closeButtonImgScaled" class="popup__close-button"></button>
+        <div class="popup__scaled-images-container scaled-images-container">
+          <img src="#" alt="" class="scaled-images-container__img">
+          <h3 class="scaled-images-container__title"></h3>
         </div>
       </div>
     </div>
-
   </main>
   <template id="card-template">
     <li class="card places__item">
@@ -82,12 +83,6 @@
       <h3 class="card__title"></h3>
       <button aria-label="поставить лайк" type="button" class="card__like-button"></button>
     </li>
-  </template>
-  <template id="scaled-images-template">
-    <div class="popup__scaled-images scaled-images">
-      <img src="#" alt="" class="scaled-images__img">
-      <h3 class="scaled-images__title"></h3>
-    </div>
   </template>
   <script src="./scripts/index.js"></script>
 </body>
