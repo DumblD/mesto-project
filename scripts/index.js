@@ -52,9 +52,6 @@ const initialCards = [
 
 function openPopup(popup) { // функция открытия popup
   popup.classList.add('popup_opened'); // отвечает за открытие popup
-  setTimeout(function() {
-    popup.style.opacity = "1"; // плавное открытие popup через opacity
-  }, 100);
 }
 
 function editProfile() { // функция получения данных профиля в input-ы формы редактирования информации
@@ -122,10 +119,7 @@ function addCard() { // функция добавления новой карт�
 function closePopup(ev) { // функция закрытия popup
   const target = ev.target;
   const popupElement = target.closest('.popup');
-  popupElement.style.opacity = "0"; // плавное закрытие popup через opacity
-  setTimeout(function() {
-    popupElement.classList.remove('popup_opened');
-  }, 500);
+  popupElement.classList.remove('popup_opened');
 }
 
 function editProfileFormSubmit (ev) { // функция отправки введенной пользователем информации профиля на страницу
