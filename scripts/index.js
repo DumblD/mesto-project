@@ -110,7 +110,7 @@ function editProfileFormSubmit (ev) { // функция отправки вве�
 
 function addPlaceFormSubmit (ev) { // функция, вызываемая при подтверждении пользователем введенных данных для добавления новой карточки
   ev.preventDefault(); // отмена стандартной отправки формы
-  let valuesToCreateCard = new Object();
+  const valuesToCreateCard = new Object();
   valuesToCreateCard.name = placeTitleInput.value; // сохраняем значения inputов, введеных пользователем
   valuesToCreateCard.link = placeLinkInput.value;
   cardsContainer.prepend(createCard(valuesToCreateCard)); // функция добавления новой карточки
