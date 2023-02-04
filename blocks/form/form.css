@@ -1,5 +1,5 @@
 .form {
-  display: none;
+  display: flex;
   grid-column: 1/2;
   width: 430px;
   background: #fff;
