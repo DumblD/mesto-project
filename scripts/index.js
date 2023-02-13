@@ -8,13 +8,13 @@ const popupAddForm = document.querySelector('#popupAddForm');
 const popupImgScaled = document.querySelector('#popupImgScaled');
 const buttonsClose = document.querySelectorAll('.popup__close-button');
 
-const profileEditForm = document.querySelector('.popup__edit-profile-form');
-const nameInput = profileEditForm.querySelector('.form__item_el_name');
-const jobInput = profileEditForm.querySelector('.form__item_el_specialty');
+const profileEditForm = document.forms.profileEditForm;
+const nameInput = profileEditForm.querySelector('.popup__input_el_name');
+const jobInput = profileEditForm.querySelector('.popup__input_el_specialty');
 
-const placeAddForm = document.querySelector('.popup__add-place-form');
-const placeTitleInput = placeAddForm.querySelector('.form__item_el_placeTitle');
-const placeLinkInput = placeAddForm.querySelector('.form__item_el_placeLink');
+const placeAddForm = document.forms.placeAddForm;
+const placeTitleInput = placeAddForm.querySelector('.popup__input_el_placeTitle');
+const placeLinkInput = placeAddForm.querySelector('.popup__input_el_placeLink');
 
 const cardsContainer = document.querySelector('.places__container');
 const cardTemplateElement = document.querySelector('#card-template').content;
