@@ -40,10 +40,25 @@
         <form name="profileEditForm" class="popup__form">
           <h3 class="popup__title">Редактировать профиль</h3>
           <fieldset class="popup__input-container">
-            <input type="text" name="name" id="name" class="popup__input popup__input_el_name" required
-              placeholder="Введите имя">
-            <input type="text" name="specialty" id="specialty" class="popup__input popup__input_el_specialty" required
-              placeholder="Введите информацию о себе">
+            <input
+            type="text"
+            name="name"
+            id="name"
+            class="popup__input popup__input_el_name"
+            required
+            placeholder="Введите имя"
+            >
+            <span class="popup__error name-error"></span>
+
+            <input
+            type="text"
+            name="specialty"
+            id="specialty"
+            class="popup__input popup__input_el_specialty"
+            required
+            placeholder="Введите информацию о себе"
+            >
+            <span class="popup__error specialty-error"></span>
           </fieldset>
           <button type="submit" class="popup__button">Сохранить</button>
         </form>
@@ -56,10 +71,25 @@
         <form name="placeAddForm" class="popup__form">
           <h3 class="popup__title">Новое место</h3>
           <fieldset class="popup__input-container">
-            <input type="text" name="placeTitle" id="placeTitle" class="popup__input popup__input_el_placeTitle" required
-              placeholder="Название">
-            <input type="text" name="placeLink" id="placeLink" class="popup__input popup__input_el_placeLink" required
-              placeholder="Ссылка на картинку">
+            <input
+            type="text"
+            name="placeTitle"
+            id="placeTitle"
+            class="popup__input popup__input_el_placeTitle"
+            required
+            placeholder="Название"
+            >
+            <span class="popup__error placeTitle-error"></span>
+
+            <input
+            type="text"
+            name="placeLink"
+            id="placeLink"
+            class="popup__input popup__input_el_placeLink"
+            required
+            placeholder="Ссылка на картинку"
+            >
+            <span class="popup__error placeLink-error"></span>
           </fieldset>
           <button type="submit" class="popup__button">Создать</button>
         </form>
