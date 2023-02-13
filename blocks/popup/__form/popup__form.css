@@ -1,4 +1,4 @@
-.form {
+.popup__form {
   display: flex;
   grid-column: 1/2;
   width: 430px;
@@ -12,7 +12,7 @@
 }
 
 @media screen and (max-width: 620px) {
-  .form {
+  .popup__form {
     width: 282px;
     grid-row: 2/3;
     padding-bottom: 25px;
