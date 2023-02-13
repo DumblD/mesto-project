@@ -46,6 +46,8 @@
             id="name"
             class="popup__input popup__input_el_name"
             required
+            minlength="2"
+            maxlength="40"
             placeholder="Введите имя"
             >
             <span class="popup__error name-error"></span>
@@ -56,6 +58,8 @@
             id="specialty"
             class="popup__input popup__input_el_specialty"
             required
+            minlength="2"
+            maxlength="200"
             placeholder="Введите информацию о себе"
             >
             <span class="popup__error specialty-error"></span>
@@ -77,12 +81,14 @@
             id="placeTitle"
             class="popup__input popup__input_el_placeTitle"
             required
+            minlength="2"
+            maxlength="30"
             placeholder="Название"
             >
             <span class="popup__error placeTitle-error"></span>
 
             <input
-            type="text"
+            type="url"
             name="placeLink"
             id="placeLink"
             class="popup__input popup__input_el_placeLink"
