@@ -3,11 +3,11 @@ const profileSpecialty = document.querySelector('.profile__specialty');
 const profileEditButton = document.querySelector('.profile__edit-button');
 const profileAddButton = document.querySelector('.profile__add-button');
 
-const popupEditForm = document.querySelector('#popupEditForm');
-const popupAddForm = document.querySelector('#popupAddForm');
-const popupImgScaled = document.querySelector('#popupImgScaled');
-const popups = document.querySelectorAll('.popup');
-const buttonsClose = document.querySelectorAll('.popup__close-button');
+const popups = Array.from(document.querySelectorAll('.popup'));
+const popupEditForm = choosePopup(popups, 'popupEditForm');
+const popupAddForm = choosePopup(popups, 'popupAddForm');
+const popupImgScaled = choosePopup(popups, 'popupImgScaled');
+const buttonsClose = Array.from(document.querySelectorAll('.popup__close-button'));
 
 const profileEditForm = document.forms.profileEditForm;
 const nameInput = profileEditForm.querySelector('.popup__input_el_name');
@@ -50,6 +50,16 @@ const initialCards = [
     link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg'
   }
 ];
+
+function choosePopup(popupsArray, popupId) {
+  let popupSearched;
+  popupsArray.forEach((popup) => {
+    if (popup.id === popupId) {
+      popupSearched = popup;
+    }
+  })
+  return popupSearched;
+}
 
 function findOpenedPopup () { // функция, возвращающая открытый popup
   let popupOpened;
