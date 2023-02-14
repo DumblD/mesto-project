@@ -3,18 +3,19 @@ const profileSpecialty = document.querySelector('.profile__specialty');
 const profileEditButton = document.querySelector('.profile__edit-button');
 const profileAddButton = document.querySelector('.profile__add-button');
 
-const popupEditForm = document.querySelector('#popupEditForm');
-const popupAddForm = document.querySelector('#popupAddForm');
-const popupImgScaled = document.querySelector('#popupImgScaled');
-const buttonsClose = document.querySelectorAll('.popup__close-button');
+const popups = Array.from(document.querySelectorAll('.popup'));
+const popupEditForm = choosePopup(popups, 'popupEditForm');
+const popupAddForm = choosePopup(popups, 'popupAddForm');
+const popupImgScaled = choosePopup(popups, 'popupImgScaled');
+const buttonsClose = Array.from(document.querySelectorAll('.popup__close-button'));
 
-const profileEditForm = document.querySelector('.popup__edit-profile-form');
-const nameInput = profileEditForm.querySelector('.form__item_el_name');
-const jobInput = profileEditForm.querySelector('.form__item_el_specialty');
+const profileEditForm = document.forms.profileEditForm;
+const nameInput = profileEditForm.querySelector('.popup__input_el_name');
+const jobInput = profileEditForm.querySelector('.popup__input_el_specialty');
 
-const placeAddForm = document.querySelector('.popup__add-place-form');
-const placeTitleInput = placeAddForm.querySelector('.form__item_el_placeTitle');
-const placeLinkInput = placeAddForm.querySelector('.form__item_el_placeLink');
+const placeAddForm = document.forms.placeAddForm;
+const placeTitleInput = placeAddForm.querySelector('.popup__input_el_placeTitle');
+const placeLinkInput = placeAddForm.querySelector('.popup__input_el_placeLink');
 
 const cardsContainer = document.querySelector('.places__container');
 const cardTemplateElement = document.querySelector('#card-template').content;
@@ -50,8 +51,47 @@ const initialCards = [
   }
 ];
 
+function choosePopup(popupsArray, popupId) {
+  let popupSearched;
+  popupsArray.forEach((popup) => {
+    if (popup.id === popupId) {
+      popupSearched = popup;
+    }
+  })
+  return popupSearched;
+}
+
+function findOpenedPopup () { // функция, возвращающая открытый popup
+  let popupOpened;
+  popups.forEach((popup) => {
+    if (popup.classList.contains('popup_opened')){
+      popupOpened = popup;
+    }
+  });
+  return popupOpened;
+}
+
+function closePopup(ev) { // функция закрытия popup
+  if (ev.type != 'keydown') {
+    const target = ev.target;
+    const popupElement = target.closest('.popup');
+    popupElement.classList.remove('popup_opened');
+  } else {
+    const popupElement = findOpenedPopup();
+    popupElement.classList.remove('popup_opened');
+  }
+  document.removeEventListener('keydown', closePopupEscPress); // удаление слушателя для событий
+}                                                              // клавиатуры при закрытии popup
+
+const closePopupEscPress = (ev) => { // функция закрытия popup
+  if (ev.key === "Escape") {         // при клике на клавишу Esc
+    closePopup(ev);
+  }
+};
+
 function openPopup(popup) { // функция открытия popup
-  popup.classList.add('popup_opened'); // отвечает за открытие popup
+  popup.classList.add('popup_opened'); // класс, отвечающий за открытие popup
+  document.addEventListener('keydown', closePopupEscPress); // закрыть popup по клику на Esc
 }
 
 function editProfile() { // функция получения данных профиля в input-ы формы редактирования информации
@@ -95,12 +135,6 @@ function addCardFromBox (boxMassive) { // функция добавления к
   });
 }
 
-function closePopup(ev) { // функция закрытия popup
-  const target = ev.target;
-  const popupElement = target.closest('.popup');
-  popupElement.classList.remove('popup_opened');
-}
-
 function editProfileFormSubmit (ev) { // функция отправки введенной пользователем информации профиля на страницу
   ev.preventDefault(); // отмена стандартной отправки формы
   profileName.textContent = nameInput.value;
@@ -123,6 +157,13 @@ profileEditButton.addEventListener('click', editProfile); // слушатель 
 profileAddButton.addEventListener('click', editNewCardData); // слушатель на кнопку "+" (добавить карточку)
 buttonsClose.forEach ((el) => {
   el.addEventListener('click', closePopup); // слушатели на все кнопки закрытия popup-ов
-})
+});
+popups.forEach ((popup) => {
+  popup.addEventListener('click', (ev) => { // добавить слушателя на каждый popup на странице
+    if (ev.currentTarget === ev.target) { // для закрытия popup при клике по затемненой области (оверлэю)
+      closePopup(ev);
+    }
+  });
+});
 profileEditForm.addEventListener('submit', editProfileFormSubmit); // слушатель на подтверждение введенных данных формы для редактирования профиля
 placeAddForm.addEventListener('submit', addPlaceFormSubmit); // слушатель на подтверждение введенных данных формы для создания новой карточки
