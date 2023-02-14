@@ -6,6 +6,7 @@ const profileAddButton = document.querySelector('.profile__add-button');
 const popupEditForm = document.querySelector('#popupEditForm');
 const popupAddForm = document.querySelector('#popupAddForm');
 const popupImgScaled = document.querySelector('#popupImgScaled');
+const popups = document.querySelectorAll('.popup');
 const buttonsClose = document.querySelectorAll('.popup__close-button');
 
 const profileEditForm = document.forms.profileEditForm;
@@ -50,8 +51,37 @@ const initialCards = [
   }
 ];
 
+function findOpenedPopup () { // функция, возвращающая открытый popup
+  let popupOpened;
+  popups.forEach((popup) => {
+    if (popup.classList.contains('popup_opened')){
+      popupOpened = popup;
+    }
+  });
+  return popupOpened;
+}
+
+function closePopup(ev) { // функция закрытия popup
+  if (ev.type != 'keydown') {
+    const target = ev.target;
+    const popupElement = target.closest('.popup');
+    popupElement.classList.remove('popup_opened');
+  } else {
+    const popupElement = findOpenedPopup();
+    popupElement.classList.remove('popup_opened');
+  }
+  document.removeEventListener('keydown', closePopupEscPress); // удаление слушателя для событий
+}                                                              // клавиатуры при закрытии popup
+
+const closePopupEscPress = (ev) => { // функция закрытия popup
+  if (ev.key === "Escape") {         // при клике на клавишу Esc
+    closePopup(ev);
+  }
+};
+
 function openPopup(popup) { // функция открытия popup
-  popup.classList.add('popup_opened'); // отвечает за открытие popup
+  popup.classList.add('popup_opened'); // класс, отвечающий за открытие popup
+  document.addEventListener('keydown', closePopupEscPress); // закрыть popup по клику на Esc
 }
 
 function editProfile() { // функция получения данных профиля в input-ы формы редактирования информации
@@ -95,12 +125,6 @@ function addCardFromBox (boxMassive) { // функция добавления к
   });
 }
 
-function closePopup(ev) { // функция закрытия popup
-  const target = ev.target;
-  const popupElement = target.closest('.popup');
-  popupElement.classList.remove('popup_opened');
-}
-
 function editProfileFormSubmit (ev) { // функция отправки введенной пользователем информации профиля на страницу
   ev.preventDefault(); // отмена стандартной отправки формы
   profileName.textContent = nameInput.value;
@@ -123,6 +147,13 @@ profileEditButton.addEventListener('click', editProfile); // слушатель 
 profileAddButton.addEventListener('click', editNewCardData); // слушатель на кнопку "+" (добавить карточку)
 buttonsClose.forEach ((el) => {
   el.addEventListener('click', closePopup); // слушатели на все кнопки закрытия popup-ов
-})
+});
+popups.forEach ((popup) => {
+  popup.addEventListener('click', (ev) => { // добавить слушателя на каждый popup на странице
+    if (ev.currentTarget === ev.target) { // для закрытия popup при клике по затемненой области (оверлэю)
+      closePopup(ev);
+    }
+  });
+});
 profileEditForm.addEventListener('submit', editProfileFormSubmit); // слушатель на подтверждение введенных данных формы для редактирования профиля
 placeAddForm.addEventListener('submit', addPlaceFormSubmit); // слушатель на подтверждение введенных данных формы для создания новой карточки
