@@ -14,8 +14,8 @@ const nameInput = profileEditForm.querySelector('.popup__input_el_name');
 const jobInput = profileEditForm.querySelector('.popup__input_el_specialty');
 
 const placeAddForm = document.forms.placeAddForm;
-const placeTitleInput = placeAddForm.querySelector('.popup__input_el_placeTitle');
-const placeLinkInput = placeAddForm.querySelector('.popup__input_el_placeLink');
+const placeTitleInput = placeAddForm.querySelector('.popup__input_el_place-title');
+const placeLinkInput = placeAddForm.querySelector('.popup__input_el_place-link');
 
 const cardsContainer = document.querySelector('.places__container');
 const cardTemplateElement = document.querySelector('#card-template').content;
