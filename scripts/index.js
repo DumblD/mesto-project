@@ -3,6 +3,7 @@ const profileSpecialty = document.querySelector('.profile__specialty');
 const profileEditButton = document.querySelector('.profile__edit-button');
 const profileAddButton = document.querySelector('.profile__add-button');
 
+let popupOpened; // переменная для хранения открытых popup (добавляются при открытии)
 const popups = Array.from(document.querySelectorAll('.popup'));
 const popupEditForm = document.querySelector('#popupEditForm');
 const popupAddForm = document.querySelector('#popupAddForm');
@@ -24,25 +25,20 @@ const scaledImagesContainer = document.querySelector('.popup__scaled-images-cont
 const scaledImg = scaledImagesContainer.querySelector('.scaled-images-container__img');
 const scaledImgTitle = scaledImagesContainer.querySelector('.scaled-images-container__title');
 
-function closePopup(ev) { // функция закрытия popup
-  if (ev.type != 'keydown') {
-    const target = ev.target;
-    const popupElement = target.closest('.popup');
-    popupElement.classList.remove('popup_opened');
-  } else {
-    const popupElement = document.querySelector('.popup_opened');
-    popupElement.classList.remove('popup_opened');
-  }
+function closePopup() { // функция закрытия popup
+  popupOpened.classList.remove('popup_opened');
   document.removeEventListener('keydown', closePopupEscPress); // удаление слушателя для событий
 }                                                              // клавиатуры при закрытии popup
 
 const closePopupEscPress = (ev) => { // функция закрытия popup
   if (ev.key === "Escape") {         // при клике на клавишу Esc
-    closePopup(ev);
+    closePopup();
   }
 };
 
 function openPopup(popup) { // функция открытия popup
+  popupOpened = popup; // добавляем, открываемый popup в переменную popupOpened -
+                      // чтобы в коде не искать потом через document.querySelector(.popup__opened)
   popup.classList.add('popup_opened'); // класс, отвечающий за открытие popup
   document.addEventListener('keydown', closePopupEscPress); // закрыть popup по клику на Esc
 }
@@ -92,7 +88,7 @@ function editProfileFormSubmit (ev) { // функция отправки вве�
   ev.preventDefault(); // отмена стандартной отправки формы
   profileName.textContent = nameInput.value;
   profileSpecialty.textContent = jobInput.value;
-  closePopup(ev);
+  closePopup();
 }
 
 function addPlaceFormSubmit (ev) { // функция, вызываемая при подтверждении пользователем введенных данных для добавления новой карточки
@@ -102,7 +98,7 @@ function addPlaceFormSubmit (ev) { // функция, вызываемая пр�
   valuesToCreateCard.link = placeLinkInput.value;
   cardsContainer.prepend(createCard(valuesToCreateCard)); // функция добавления новой карточки
   ev.target.reset(); // очищаем поля ввода у формы добавления карточки перед закрытием
-  closePopup(ev);
+  closePopup();
 }
 
 addCardFromBox(initialCards); // функция добавления карточек на страницу по данным из массива (название, ссылка на картинку)
@@ -114,7 +110,7 @@ buttonsClose.forEach ((el) => {
 popups.forEach ((popup) => {
   popup.addEventListener('click', (ev) => { // добавить слушателя на каждый popup на странице
     if (ev.currentTarget === ev.target) { // для закрытия popup при клике по затемненой области (оверлэю)
-      closePopup(ev);
+      closePopup();
     }
   });
 });
