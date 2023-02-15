@@ -4,9 +4,9 @@ const profileEditButton = document.querySelector('.profile__edit-button');
 const profileAddButton = document.querySelector('.profile__add-button');
 
 const popups = Array.from(document.querySelectorAll('.popup'));
-const popupEditForm = choosePopup(popups, 'popupEditForm');
-const popupAddForm = choosePopup(popups, 'popupAddForm');
-const popupImgScaled = choosePopup(popups, 'popupImgScaled');
+const popupEditForm = document.querySelector('#popupEditForm');
+const popupAddForm = document.querySelector('#popupAddForm');
+const popupImgScaled = document.querySelector('#popupImgScaled');
 const buttonsClose = Array.from(document.querySelectorAll('.popup__close-button'));
 
 const profileEditForm = document.forms.profileEditForm;
@@ -23,16 +23,6 @@ const cardTemplateElement = document.querySelector('#card-template').content;
 const scaledImagesContainer = document.querySelector('.popup__scaled-images-container');
 const scaledImg = scaledImagesContainer.querySelector('.scaled-images-container__img');
 const scaledImgTitle = scaledImagesContainer.querySelector('.scaled-images-container__title');
-
-function choosePopup(popupsArray, popupId) {
-  let popupSearched;
-  popupsArray.forEach((popup) => {
-    if (popup.id === popupId) {
-      popupSearched = popup;
-    }
-  })
-  return popupSearched;
-}
 
 function findOpenedPopup () { // функция, возвращающая открытый popup
   let popupOpened;
