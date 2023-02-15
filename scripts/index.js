@@ -24,23 +24,13 @@ const scaledImagesContainer = document.querySelector('.popup__scaled-images-cont
 const scaledImg = scaledImagesContainer.querySelector('.scaled-images-container__img');
 const scaledImgTitle = scaledImagesContainer.querySelector('.scaled-images-container__title');
 
-function findOpenedPopup () { // функция, возвращающая открытый popup
-  let popupOpened;
-  popups.forEach((popup) => {
-    if (popup.classList.contains('popup_opened')){
-      popupOpened = popup;
-    }
-  });
-  return popupOpened;
-}
-
 function closePopup(ev) { // функция закрытия popup
   if (ev.type != 'keydown') {
     const target = ev.target;
     const popupElement = target.closest('.popup');
     popupElement.classList.remove('popup_opened');
   } else {
-    const popupElement = findOpenedPopup();
+    const popupElement = document.querySelector('.popup_opened');
     popupElement.classList.remove('popup_opened');
   }
   document.removeEventListener('keydown', closePopupEscPress); // удаление слушателя для событий
