@@ -53,12 +53,14 @@ function hideErrorMessage(inputElement, formElement, configData) {
 }
 
 function toggleButton (formElement, configData) {
-  isFormValid = formElement.checkValidity();
+  const isFormValid = formElement.checkValidity();
   const submitButton = formElement.querySelector(configData.submitButtonSelector);
   if (!isFormValid) {
     submitButton.classList.add(configData.inactiveButtonClass);
+    submitButton.disabled = true;
   } else {
     submitButton.classList.remove(configData.inactiveButtonClass);
+    submitButton.disabled = false;
   }
 }
 
