@@ -53,26 +53,37 @@ function editNewCardData() { // функция открытия формы дл�
   openPopup(popupAddForm);
 }
 
+function toggleLikeButtonActiveClass(ev) { // функция удаления/добавления активного класса для 'card__like-button'
+  const target = ev.target;
+  target.classList.toggle('card__like-button_active');
+}
+
+function deleteCard(ev) { // функция удаления карточки
+  const target = ev.target;
+  const cardItem = target.closest('.card');
+  cardItem.remove();
+}
+
+function addScaledImgDataToPopup(img) { // функция добавления увеличенного изображения карточки
+  // в popup для 'изображений с исходным соотношением сторон/размером'
+  scaledImg.src = img.link;
+  scaledImg.alt = img.name.toLowerCase();
+  scaledImgTitle.textContent = img.name;
+}
+
 function createCard(el) {
   const cardElement = cardTemplateElement.querySelector('.card').cloneNode(true);
   const cardLikeButton = cardElement.querySelector('.card__like-button');
   const cardDelButton = cardElement.querySelector('.card__del-button');
   const cardImg = cardElement.querySelector('.card__img');
   const cardTitle = cardElement.querySelector('.card__title');
-  cardLikeButton.addEventListener('click', function () {
-    cardLikeButton.classList.toggle('card__like-button_active');
-  });
-  cardDelButton.addEventListener('click', function () {
-    const cardItem = cardDelButton.closest('.card');
-    cardItem.remove();
-  });
+  cardLikeButton.addEventListener('click', toggleLikeButtonActiveClass);
+  cardDelButton.addEventListener('click', deleteCard);
   cardImg.src = el.link;
   cardImg.alt = el.name.toLowerCase();
   cardTitle.textContent = el.name;
-  cardImg.addEventListener('click', function () {
-    scaledImg.src = el.link;
-    scaledImg.alt = el.name.toLowerCase();
-    scaledImgTitle.textContent = el.name;
+  cardImg.addEventListener('click', () => {
+    addScaledImgDataToPopup(el);
     openPopup(popupImgScaled);
   });
   return cardElement
