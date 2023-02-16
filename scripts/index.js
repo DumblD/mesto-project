@@ -47,8 +47,7 @@ function openPopup(popup) { // функция открытия popup
 function editProfile() { // функция получения данных профиля в input-ы формы редактирования информации
   nameInput.value = profileName.textContent;
   jobInput.value = profileSpecialty.textContent;
-  const formElement = popupEditForm.querySelector(validationData.formSelector);
-  toggleButton(formElement, validationData); // актуализация состояния кнопки сабмита
+  toggleButton(profileEditForm, validationData); // актуализация состояния кнопки сабмита
                                             // после добавления значений из input-ов
   openPopup(popupEditForm); // открываем popup редактирования информации
 }
