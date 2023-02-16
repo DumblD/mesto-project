@@ -13,7 +13,6 @@ function formReset (formElement) { // функция очистки полей �
 
 function resetErrors(popupElement, configData) { // функция сброса ошибок валидации
   const formElement = popupElement.querySelector(configData.formSelector);
-  formReset(formElement); // очистка полей формы
   const inputList = Array.from(formElement.querySelectorAll(configData.inputSelector));
   inputList.forEach((inputElement) => {
     // очистка ошибок валидации
