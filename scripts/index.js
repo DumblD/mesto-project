@@ -119,7 +119,7 @@ buttonsClose.forEach ((el) => {
   el.addEventListener('click', closePopup); // слушатели на все кнопки закрытия popup-ов
 });
 popups.forEach ((popup) => {
-  popup.addEventListener('click', (ev) => { // добавить слушателя на каждый popup на странице
+  popup.addEventListener('mousedown', (ev) => { // добавить слушателя на каждый popup на странице
     if (ev.currentTarget === ev.target) { // для закрытия popup при клике по затемненой области (оверлэю)
       closePopup();
     }
