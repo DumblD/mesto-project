@@ -7,6 +7,23 @@ const validationData = {
   errorClass: 'popup__error_visible'
 };
 
+function formReset (formElement) { // функция очистки полей формы
+  formElement.reset();
+}
+
+function resetErrors(popupElement, configData) { // функция сброса ошибок валидации
+  const formElement = popupElement.querySelector(configData.formSelector);
+  formReset(formElement); // очистка полей формы
+  const inputList = Array.from(formElement.querySelectorAll(configData.inputSelector));
+  inputList.forEach((inputElement) => {
+    // очистка ошибок валидации
+    hideErrorMessage(inputElement, formElement, configData);
+    inputElement.classList.remove(configData.inputErrorClass);
+  });
+  // актуализация состояния кнопки сабмита
+  toggleButton(formElement, configData);
+}
+
 function enableValidation(configData) {
   const formList = Array.from(document.forms);
   formList.forEach((form) => {
@@ -48,8 +65,10 @@ function showErrorMessage(inputElement, formElement, configData) {
 
 function hideErrorMessage(inputElement, formElement, configData) {
   const errorContainer = formElement.querySelector(`.${inputElement.id}-error`);
-  errorContainer.classList.remove(configData.errorClass);
-  errorContainer.textContent = '';
+  if (errorContainer.classList.contains(configData.errorClass)) {
+    errorContainer.classList.remove(configData.errorClass);
+    errorContainer.textContent = '';
+  }
 }
 
 function toggleButton (formElement, configData) {
