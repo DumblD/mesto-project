@@ -27,7 +27,6 @@ const scaledImgTitle = scaledImagesContainer.querySelector('.scaled-images-conta
 
 function closePopup() { // функция закрытия popup
   popupOpened.classList.remove('popup_opened');
-  resetErrors(popupOpened, validationData); // сбрасываем ошибки валидации input-ов
   document.removeEventListener('keydown', closePopupEscPress); // удаление слушателя для событий
 }                                                              // клавиатуры при закрытии popup
 
@@ -47,13 +46,15 @@ function openPopup(popup) { // функция открытия popup
 function editProfile() { // функция получения данных профиля в input-ы формы редактирования информации
   nameInput.value = profileName.textContent;
   jobInput.value = profileSpecialty.textContent;
-  const formElement = popupEditForm.querySelector(validationData.formSelector);
-  toggleButton(formElement, validationData); // актуализация состояния кнопки сабмита
+  toggleButton(profileEditForm, validationData); // актуализация состояния кнопки сабмита
                                             // после добавления значений из input-ов
+  resetErrors(popupEditForm, validationData); // сбрасываем ошибки валидации input-ов
   openPopup(popupEditForm); // открываем popup редактирования информации
 }
 
 function editNewCardData() { // функция открытия формы для добавления новой карточки
+  formReset(placeAddForm); // очистка полей формы
+  resetErrors(popupAddForm, validationData); // сбрасываем ошибки валидации input-ов
   openPopup(popupAddForm);
 }
 
