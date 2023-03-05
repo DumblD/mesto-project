@@ -1,5 +1,5 @@
-import card from './Card.js'; // импорт созданного экземпляра класса Card
-import formValidator from './FormValidator.js'; // импорт созданного экземпляра класса FormValidator
+import Card from './Card.js'; // импорт класса Card
+import FormValidator from './FormValidator.js'; // импорт класса FormValidator
 
 const initialCards = [
   {
@@ -49,6 +49,10 @@ const placeLinkInput = placeAddForm.querySelector('.popup__input_el_place-link')
 
 const cardsContainer = document.querySelector('.places__container');
 
+function formReset (formElement) { // функция очистки полей формы
+  formElement.reset();
+}
+
 function closePopup() { // функция закрытия popup
   popupOpened.classList.remove('popup_opened');
   document.removeEventListener('keydown', closePopupEscPress); // удаление слушателя для событий
@@ -70,21 +74,24 @@ export default function openPopup(popup) { // функция открытия po
 function editProfile() { // функция получения данных профиля в input-ы формы редактирования информации
   nameInput.value = profileName.textContent;
   jobInput.value = profileSpecialty.textContent;
-  formValidator.toggleButton(profileEditForm); // актуализация состояния кнопки сабмита
-                                            // после добавления значений из input-ов
+  const formValidator = new FormValidator (FormValidator.validationData, profileEditForm);
+  formValidator.enableValidation();
   formValidator.resetErrors(popupEditForm); // сбрасываем ошибки валидации input-ов
   openPopup(popupEditForm); // открываем popup редактирования информации
 }
 
 function editNewCardData() { // функция открытия формы для добавления новой карточки
-  formValidator.formReset(placeAddForm); // очистка полей формы
+  formReset(placeAddForm); // очистка полей формы
+  const formValidator = new FormValidator (FormValidator.validationData, placeAddForm);
+  formValidator.enableValidation();
   formValidator.resetErrors(popupAddForm); // сбрасываем ошибки валидации input-ов
   openPopup(popupAddForm);
 }
 
 function addCardFromBox (boxMassive) { // функция добавления карточек-мест из массива данных (название, ссылка на картинку)
   boxMassive.forEach ((el) => {
-    cardsContainer.append(card.generateCard(el));
+    const card = new Card(el, '#card-template');
+    cardsContainer.append(card.generateCard());
   });
 }
 
@@ -100,7 +107,8 @@ function addPlaceFormSubmit (ev) { // функция, вызываемая пр�
   const valuesToCreateCard = new Object();
   valuesToCreateCard.name = placeTitleInput.value; // сохраняем значения inputов, введеных пользователем
   valuesToCreateCard.link = placeLinkInput.value;
-  cardsContainer.prepend(card.generateCard(valuesToCreateCard)); // функция добавления новой карточки
+  const card = new Card(valuesToCreateCard, '#card-template');
+  cardsContainer.prepend(card.generateCard()); // функция добавления новой карточки
   ev.target.reset(); // очищаем поля ввода у формы добавления карточки перед закрытием
   closePopup();
 }
