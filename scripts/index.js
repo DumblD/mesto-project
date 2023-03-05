@@ -1,3 +1,33 @@
+import card from './Card.js'; // импорт созданного экземпляра класса Card
+import formValidator from './FormValidator.js'; // импорт созданного экземпляра класса FormValidator
+
+const initialCards = [
+  {
+    name: 'Архыз',
+    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg'
+  },
+  {
+    name: 'Челябинская область',
+    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/chelyabinsk-oblast.jpg'
+  },
+  {
+    name: 'Иваново',
+    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/ivanovo.jpg'
+  },
+  {
+    name: 'Камчатка',
+    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kamchatka.jpg'
+  },
+  {
+    name: 'Холмогорский район',
+    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kholmogorsky-rayon.jpg'
+  },
+  {
+    name: 'Байкал',
+    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg'
+  }
+];
+
 const profileName = document.querySelector('.profile__name');
 const profileSpecialty = document.querySelector('.profile__specialty');
 const profileEditButton = document.querySelector('.profile__edit-button');
@@ -7,7 +37,6 @@ let popupOpened; // переменная для хранения открыты�
 const popups = Array.from(document.querySelectorAll('.popup'));
 const popupEditForm = document.querySelector('#popupEditForm');
 const popupAddForm = document.querySelector('#popupAddForm');
-const popupImgScaled = document.querySelector('#popupImgScaled');
 const buttonsClose = Array.from(document.querySelectorAll('.popup__close-button'));
 
 const profileEditForm = document.forms.profileEditForm;
@@ -19,11 +48,6 @@ const placeTitleInput = placeAddForm.querySelector('.popup__input_el_place-title
 const placeLinkInput = placeAddForm.querySelector('.popup__input_el_place-link');
 
 const cardsContainer = document.querySelector('.places__container');
-const cardTemplateElement = document.querySelector('#card-template').content;
-
-const scaledImagesContainer = document.querySelector('.popup__scaled-images-container');
-const scaledImg = scaledImagesContainer.querySelector('.scaled-images-container__img');
-const scaledImgTitle = scaledImagesContainer.querySelector('.scaled-images-container__title');
 
 function closePopup() { // функция закрытия popup
   popupOpened.classList.remove('popup_opened');
@@ -36,7 +60,7 @@ const closePopupEscPress = (ev) => { // функция закрытия popup
   }
 };
 
-function openPopup(popup) { // функция открытия popup
+export default function openPopup(popup) { // функция открытия popup
   popupOpened = popup; // добавляем, открываемый popup в переменную popupOpened -
                       // чтобы в коде не искать потом через document.querySelector(.popup__opened)
   popup.classList.add('popup_opened'); // класс, отвечающий за открытие popup
@@ -46,57 +70,21 @@ function openPopup(popup) { // функция открытия popup
 function editProfile() { // функция получения данных профиля в input-ы формы редактирования информации
   nameInput.value = profileName.textContent;
   jobInput.value = profileSpecialty.textContent;
-  toggleButton(profileEditForm, validationData); // актуализация состояния кнопки сабмита
+  formValidator.toggleButton(profileEditForm); // актуализация состояния кнопки сабмита
                                             // после добавления значений из input-ов
-  resetErrors(popupEditForm, validationData); // сбрасываем ошибки валидации input-ов
+  formValidator.resetErrors(popupEditForm); // сбрасываем ошибки валидации input-ов
   openPopup(popupEditForm); // открываем popup редактирования информации
 }
 
 function editNewCardData() { // функция открытия формы для добавления новой карточки
-  formReset(placeAddForm); // очистка полей формы
-  resetErrors(popupAddForm, validationData); // сбрасываем ошибки валидации input-ов
+  formValidator.formReset(placeAddForm); // очистка полей формы
+  formValidator.resetErrors(popupAddForm); // сбрасываем ошибки валидации input-ов
   openPopup(popupAddForm);
-}
-
-function toggleLikeButtonActiveClass(ev) { // функция удаления/добавления активного класса для 'card__like-button'
-  const target = ev.target;
-  target.classList.toggle('card__like-button_active');
-}
-
-function deleteCard(ev) { // функция удаления карточки
-  const target = ev.target;
-  const cardItem = target.closest('.card');
-  cardItem.remove();
-}
-
-function addScaledImgDataToPopup(img) { // функция добавления увеличенного изображения карточки
-  // в popup для 'изображений с исходным соотношением сторон/размером'
-  scaledImg.src = img.link;
-  scaledImg.alt = img.name.toLowerCase();
-  scaledImgTitle.textContent = img.name;
-}
-
-function createCard(el) {
-  const cardElement = cardTemplateElement.querySelector('.card').cloneNode(true);
-  const cardLikeButton = cardElement.querySelector('.card__like-button');
-  const cardDelButton = cardElement.querySelector('.card__del-button');
-  const cardImg = cardElement.querySelector('.card__img');
-  const cardTitle = cardElement.querySelector('.card__title');
-  cardLikeButton.addEventListener('click', toggleLikeButtonActiveClass);
-  cardDelButton.addEventListener('click', deleteCard);
-  cardImg.src = el.link;
-  cardImg.alt = el.name.toLowerCase();
-  cardTitle.textContent = el.name;
-  cardImg.addEventListener('click', () => {
-    addScaledImgDataToPopup(el);
-    openPopup(popupImgScaled);
-  });
-  return cardElement
 }
 
 function addCardFromBox (boxMassive) { // функция добавления карточек-мест из массива данных (название, ссылка на картинку)
   boxMassive.forEach ((el) => {
-    cardsContainer.append(createCard(el));
+    cardsContainer.append(card.generateCard(el));
   });
 }
 
@@ -112,7 +100,7 @@ function addPlaceFormSubmit (ev) { // функция, вызываемая пр�
   const valuesToCreateCard = new Object();
   valuesToCreateCard.name = placeTitleInput.value; // сохраняем значения inputов, введеных пользователем
   valuesToCreateCard.link = placeLinkInput.value;
-  cardsContainer.prepend(createCard(valuesToCreateCard)); // функция добавления новой карточки
+  cardsContainer.prepend(card.generateCard(valuesToCreateCard)); // функция добавления новой карточки
   ev.target.reset(); // очищаем поля ввода у формы добавления карточки перед закрытием
   closePopup();
 }
