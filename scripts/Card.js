@@ -1,7 +1,8 @@
-import openPopup from "./index.js";
+import openPopup from "./index.js"; // импорт функции открытия popup
 
 class Card {
-  constructor(templateSelector) {
+  constructor(cardsData, templateSelector) {
+    this._cardsData = cardsData;
     this._templateSelector = templateSelector;
   }
 
@@ -15,16 +16,16 @@ class Card {
       return cardElement;
     }
 
-    generateCard(cardsData) { // функция создания и наполнения карточки данными
+    generateCard() { // функция создания и наполнения карточки данными
       this._cardElement = this._getTemplate();
-      this._setEventListners(cardsData);
+      this._setEventListners(this._cardsData);
 
       const cardImg = this._cardElement.querySelector('.card__img');
       const cardTitle = this._cardElement.querySelector('.card__title');
 
-      cardImg.src = cardsData.link;
-      cardImg.alt = cardsData.name.toLowerCase();
-      cardTitle.textContent = cardsData.name;
+      cardImg.src = this._cardsData.link;
+      cardImg.alt = this._cardsData.name.toLowerCase();
+      cardTitle.textContent = this._cardsData.name;
 
       return this._cardElement;
     }
@@ -39,17 +40,17 @@ class Card {
       target.closest('.card').remove();
     }
 
-    _addScaledImgDataToPopup(cardsData) { // функция добавления увеличенного изображения карточки
+    _addScaledImgDataToPopup() { // функция добавления увеличенного изображения карточки
       // в popup для 'изображений с исходным соотношением сторон/размером'
       const scaledImg = document.querySelector('.scaled-images-container__img');
       const scaledImgTitle = document.querySelector('.scaled-images-container__title');
 
-      scaledImg.src = cardsData.link;
-      scaledImg.alt = cardsData.name.toLowerCase();
-      scaledImgTitle.textContent = cardsData.name;
+      scaledImg.src = this._cardsData.link;
+      scaledImg.alt = this._cardsData.name.toLowerCase();
+      scaledImgTitle.textContent = this._cardsData.name;
     }
 
-    _setEventListners(cardsData) { // функция добавления обработчиков элементам карточки
+    _setEventListners() { // функция добавления обработчиков элементам карточки
       const popupImgScaled = document.querySelector('#popupImgScaled');
 
       this._cardElement.querySelector('.card__like-button')
@@ -60,12 +61,10 @@ class Card {
 
       this._cardElement.querySelector('.card__img')
       .addEventListener('click', () => {
-        this._addScaledImgDataToPopup(cardsData);
+        this._addScaledImgDataToPopup(this._cardsData);
         openPopup(popupImgScaled);
       });
     }
 }
 
-const card = new Card('#card-template'); // создание экземпляра класса Card
-
-export default card; // экспорт созданного экземпляра класса Card
+export default Card; // экспорт созданного класса Card
