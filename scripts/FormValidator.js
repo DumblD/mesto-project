@@ -12,6 +12,10 @@ class FormValidator {
   constructor(validationData, formElement) {
     this._configData = validationData;
     this._formElement = formElement;
+    // сохраняем кнопку Submit переданной формы
+    this._submitButton = this._formElement.querySelector(this._configData.submitButtonSelector);
+    // сохраняем все input-элементы переданной формы
+    this._formInputList = Array.from(this._formElement.querySelectorAll(this._configData.inputSelector));
   }
 
   _showErrorMessage(inputElement) { // функция отображения сообщений об ошибках для input-элементов
@@ -32,20 +36,17 @@ class FormValidator {
 
   _toggleButton () { // функция активации/деактивации кнопки отправки формы
     const isFormValid = this._formElement.checkValidity();
-    const submitButton = this._formElement.querySelector(this._configData.submitButtonSelector);
     if (!isFormValid) {
-      submitButton.classList.add(this._configData.inactiveButtonClass);
-      submitButton.disabled = true;
+      this._submitButton.classList.add(this._configData.inactiveButtonClass);
+      this._submitButton.disabled = true;
     } else {
-      submitButton.classList.remove(this._configData.inactiveButtonClass);
-      submitButton.disabled = false;
+      this._submitButton.classList.remove(this._configData.inactiveButtonClass);
+      this._submitButton.disabled = false;
     }
   }
 
-  resetErrors(popupElement) { // функция сброса ошибок валидации
-    const formElement = popupElement.querySelector(this._configData.formSelector);
-    const inputList = Array.from(formElement.querySelectorAll(this._configData.inputSelector));
-    inputList.forEach((inputElement) => {
+  resetValidationErrors() { // функция сброса ошибок валидации
+    this._formInputList.forEach((inputElement) => {
       // очистка ошибок валидации
       this._hideErrorMessage(inputElement);
       inputElement.classList.remove(this._configData.inputErrorClass);
@@ -75,8 +76,7 @@ class FormValidator {
 
   enableValidation() { // функция, активирующая валидацию input-элементов во всех формах на странице
     this._toggleButton();
-    const inputList = Array.from(this._formElement.querySelectorAll(this._configData.inputSelector));
-    inputList.forEach((inputItem) => {
+    this._formInputList.forEach((inputItem) => {
       inputItem.addEventListener('input', () => {
         this._checkInputValidity(inputItem);
         this._toggleButton();
