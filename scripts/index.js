@@ -49,8 +49,34 @@ const placeLinkInput = placeAddForm.querySelector('.popup__input_el_place-link')
 
 const cardsContainer = document.querySelector('.places__container');
 
-function formReset (formElement) { // функция очистки полей формы
+// создание экземпляров классов FormValidator для каждой из форм на странице
+// включение валидации каждой из форм на странице, используя публичную функцию enableValidation() класса FormValidator
+const profileEditFormValidator = new FormValidator (FormValidator.validationData, profileEditForm);
+profileEditFormValidator.enableValidation();
+const placeAddFormValidator = new FormValidator (FormValidator.validationData, placeAddForm);
+placeAddFormValidator.enableValidation();
+
+export default function handleCardClick(cardsData) { // функция добавления увеличенного изображения карточки
+                                                    // в popup для 'изображений с исходным соотношением сторон/размером'
+  const popupImgScaled = document.querySelector('#popupImgScaled');
+  const scaledImg = document.querySelector('.scaled-images-container__img');
+  const scaledImgTitle = document.querySelector('.scaled-images-container__title');
+
+  scaledImg.src = cardsData.link;
+  scaledImg.alt = cardsData.name.toLowerCase();
+  scaledImgTitle.textContent = cardsData.name;
+  openPopup(popupImgScaled);
+}
+
+function resetForm (formElement) { // функция очистки полей формы
   formElement.reset();
+}
+
+function createCard(cardsData) { // функция создания и наполнения карточки с использованием
+                                // класса Card и методов этого класса
+  const card = new Card(cardsData, '#card-template', handleCardClick);
+  const cardElement = card.generateCard();
+  return cardElement;
 }
 
 function closePopup() { // функция закрытия popup
@@ -64,7 +90,7 @@ const closePopupEscPress = (ev) => { // функция закрытия popup
   }
 };
 
-export default function openPopup(popup) { // функция открытия popup
+function openPopup(popup) { // функция открытия popup
   popupOpened = popup; // добавляем, открываемый popup в переменную popupOpened -
                       // чтобы в коде не искать потом через document.querySelector(.popup__opened)
   popup.classList.add('popup_opened'); // класс, отвечающий за открытие popup
@@ -74,24 +100,19 @@ export default function openPopup(popup) { // функция открытия po
 function editProfile() { // функция получения данных профиля в input-ы формы редактирования информации
   nameInput.value = profileName.textContent;
   jobInput.value = profileSpecialty.textContent;
-  const formValidator = new FormValidator (FormValidator.validationData, profileEditForm);
-  formValidator.enableValidation();
-  formValidator.resetErrors(popupEditForm); // сбрасываем ошибки валидации input-ов
+  profileEditFormValidator.resetValidationErrors(); // сбрасываем ошибки валидации input-ов
   openPopup(popupEditForm); // открываем popup редактирования информации
 }
 
 function editNewCardData() { // функция открытия формы для добавления новой карточки
-  formReset(placeAddForm); // очистка полей формы
-  const formValidator = new FormValidator (FormValidator.validationData, placeAddForm);
-  formValidator.enableValidation();
-  formValidator.resetErrors(popupAddForm); // сбрасываем ошибки валидации input-ов
+  resetForm(placeAddForm); // очистка полей формы
+  placeAddFormValidator.resetValidationErrors(); // сбрасываем ошибки валидации input-ов
   openPopup(popupAddForm);
 }
 
 function addCardFromBox (boxMassive) { // функция добавления карточек-мест из массива данных (название, ссылка на картинку)
   boxMassive.forEach ((el) => {
-    const card = new Card(el, '#card-template');
-    cardsContainer.append(card.generateCard());
+    cardsContainer.append(createCard(el));
   });
 }
 
@@ -107,8 +128,7 @@ function addPlaceFormSubmit (ev) { // функция, вызываемая пр�
   const valuesToCreateCard = new Object();
   valuesToCreateCard.name = placeTitleInput.value; // сохраняем значения inputов, введеных пользователем
   valuesToCreateCard.link = placeLinkInput.value;
-  const card = new Card(valuesToCreateCard, '#card-template');
-  cardsContainer.prepend(card.generateCard()); // функция добавления новой карточки
+  cardsContainer.prepend(createCard(valuesToCreateCard)); // функция добавления новой карточки
   ev.target.reset(); // очищаем поля ввода у формы добавления карточки перед закрытием
   closePopup();
 }
