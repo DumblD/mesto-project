@@ -37,6 +37,7 @@ let popupOpened; // переменная для хранения открыты�
 const popups = Array.from(document.querySelectorAll('.popup'));
 const popupEditForm = document.querySelector('#popupEditForm');
 const popupAddForm = document.querySelector('#popupAddForm');
+const popupImgScaled = document.querySelector('#popupImgScaled');
 const buttonsClose = Array.from(document.querySelectorAll('.popup__close-button'));
 
 const profileEditForm = document.forms.profileEditForm;
@@ -46,6 +47,9 @@ const jobInput = profileEditForm.querySelector('.popup__input_el_specialty');
 const placeAddForm = document.forms.placeAddForm;
 const placeTitleInput = placeAddForm.querySelector('.popup__input_el_place-title');
 const placeLinkInput = placeAddForm.querySelector('.popup__input_el_place-link');
+
+const scaledImg = popupImgScaled.querySelector('.scaled-images-container__img');
+const scaledImgTitle = popupImgScaled.querySelector('.scaled-images-container__title');
 
 const cardsContainer = document.querySelector('.places__container');
 
@@ -58,10 +62,6 @@ placeAddFormValidator.enableValidation();
 
 export default function handleCardClick(cardsData) { // функция добавления увеличенного изображения карточки
                                                     // в popup для 'изображений с исходным соотношением сторон/размером'
-  const popupImgScaled = document.querySelector('#popupImgScaled');
-  const scaledImg = document.querySelector('.scaled-images-container__img');
-  const scaledImgTitle = document.querySelector('.scaled-images-container__title');
-
   scaledImg.src = cardsData.link;
   scaledImg.alt = cardsData.name.toLowerCase();
   scaledImgTitle.textContent = cardsData.name;

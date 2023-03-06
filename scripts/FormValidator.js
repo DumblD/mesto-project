@@ -74,14 +74,19 @@ class FormValidator {
     }
   }
 
-  enableValidation() { // функция, активирующая валидацию input-элементов во всех формах на странице
-    this._toggleButton();
+  _setEventListeners () { // функция, устанавливающая на каждый input переданной формы
+                         // обработчики на проверку валидности этих input-элементов
     this._formInputList.forEach((inputItem) => {
       inputItem.addEventListener('input', () => {
         this._checkInputValidity(inputItem);
         this._toggleButton();
       });
     });
+  }
+
+  enableValidation() { // функция, активирующая валидацию input-элементов во всех формах на странице
+    this._toggleButton();
+    this._setEventListeners();
   }
 }
 
