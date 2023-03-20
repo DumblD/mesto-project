@@ -1,7 +1,4 @@
-import handleCardClick from "./index.js"; // импорт функции добавления увеличенного изображения карточки
-                                         // в popup для 'изображений с исходным соотношением сторон/размером'
-
-class Card {
+export default class Card {
   constructor(cardsData, templateSelector, handleCardClick) {
     this._cardsData = cardsData;
     this._templateSelector = templateSelector;
@@ -55,5 +52,3 @@ class Card {
       });
     }
 }
-
-export default Card; // экспорт созданного класса Card

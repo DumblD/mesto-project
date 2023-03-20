@@ -1,4 +1,4 @@
-class FormValidator {
+export default class FormValidator {
 
   static validationData = {
     formSelector: '.popup__form',
@@ -89,5 +89,3 @@ class FormValidator {
     this._setEventListeners();
   }
 }
-
-export default FormValidator; // экспорт созданного класса FormValidator
