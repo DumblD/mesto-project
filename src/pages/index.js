@@ -7,33 +7,16 @@ import PopupWithForm from '../components/PopupWithForm.js';
 import UserInfo from '../components/UserInfo.js';
 import FormValidator from '../components/FormValidator.js';
 import EditButton from '../components/EditButton.js';
+import {validationData} from '../utils/constants.js'
+import {initialCards} from '../utils/initialCards.js'
 
-const initialCards = [
-  {
-    name: 'Архыз',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg'
-  },
-  {
-    name: 'Челябинская область',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/chelyabinsk-oblast.jpg'
-  },
-  {
-    name: 'Иваново',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/ivanovo.jpg'
-  },
-  {
-    name: 'Камчатка',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kamchatka.jpg'
-  },
-  {
-    name: 'Холмогорский район',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kholmogorsky-rayon.jpg'
-  },
-  {
-    name: 'Байкал',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg'
-  }
-];
+//создание экземпляра класса Section
+const cardList = new Section({renderer: (item) => {
+  const card = new Card(item, '#card-template', handleCardClick);
+  const cardElement = card.generateCard();
+  cardList.addItem(cardElement);
+}
+}, '.places__container');
 
 // создание экземпляра класса UserInfo
 const userInfo = new UserInfo('.profile__name', '.profile__specialty');
@@ -42,30 +25,23 @@ const userInfo = new UserInfo('.profile__name', '.profile__specialty');
 const popupImgScaled = new PopupWithImage('#popupImgScaled');
 popupImgScaled.setEventListeners();
 
-const popupEditForm = new PopupWithForm('#popupEditForm', {handleFormSubmit: (ev) => {
+const popupEditForm = new PopupWithForm('#popupEditForm', {handleFormSubmit: (ev, inputValues) => {
   ev.preventDefault();
-  userInfo.setUserInfo(popupEditForm._getInputValues());
+  userInfo.setUserInfo(inputValues);
   popupEditForm.close();
 }
 });
 popupEditForm.setEventListeners();
 
-const popupAddForm = new PopupWithForm('#popupAddForm', {handleFormSubmit: (ev) => {
+const popupAddForm = new PopupWithForm('#popupAddForm', {handleFormSubmit: (ev, inputValues) => {
   ev.preventDefault();
-  const [name, link] = popupAddForm._getInputValues(); // сохраняем значения inputов, введеных пользователем
+  const {placeTitle: name, placeLink: link} = inputValues;
   const valuesToCreateCard = new Object();
   valuesToCreateCard.name = name;
   valuesToCreateCard.link = link;
   const dataToCreateCard = new Array();
   dataToCreateCard.push(valuesToCreateCard);
-  const newCard = new Section({items: dataToCreateCard, renderer: (item) => {
-    const card = new Card(item, '#card-template', handleCardClick);
-    const cardElement = card.generateCard();
-    newCard.addItem(cardElement);
-  }
-  }, '.places__container');
-  newCard.renderItems(); // рендерим карточку с помощью класса Section
-  popupAddForm._resetForm(); // очищаем поля ввода у формы добавления карточки перед закрытием
+  cardList.renderItems({items: dataToCreateCard}); // рендерим карточку с помощью класса Section
   popupAddForm.close();
 }
 });
@@ -73,14 +49,14 @@ popupAddForm.setEventListeners();
 
 // создание экземпляров классов FormValidator для каждой из форм на странице
 // включение валидации каждой из форм на странице, используя публичную функцию enableValidation() класса FormValidator
-const profileEditFormValidator = new FormValidator (FormValidator.validationData, popupEditForm._getFormElement());
+const profileEditFormValidator = new FormValidator (validationData, popupEditForm.getFormElement());
 profileEditFormValidator.enableValidation();
-const placeAddFormValidator = new FormValidator (FormValidator.validationData, popupAddForm._getFormElement());
+const placeAddFormValidator = new FormValidator (validationData, popupAddForm.getFormElement());
 placeAddFormValidator.enableValidation();
 
 // создаем экземпляры класса кнопок редактирования информации; добавляем обработчики на кнопки
 const profileEditButton = new EditButton ('.profile__edit-button', {handleEditButtonClick: () => {
-  popupEditForm._setInputValues(userInfo.getUserInfo()); // добавляем userInfo в значения инпутов формы
+  popupEditForm.setInputValues(userInfo.getUserInfo()); // добавляем userInfo в значения инпутов формы
   profileEditFormValidator.resetValidationErrors(); // сбрасываем ошибки валидации input-ов
   popupEditForm.open(); // открываем popup редактирования информации
 }
@@ -88,7 +64,6 @@ const profileEditButton = new EditButton ('.profile__edit-button', {handleEditBu
 profileEditButton.setEventListeners();
 
 const profileAddButton = new EditButton ('.profile__add-button', {handleEditButtonClick: () => {
-  popupAddForm._resetForm(); // очистка полей формы
   placeAddFormValidator.resetValidationErrors(); // сбрасываем ошибки валидации input-ов
   popupAddForm.open();
 }
@@ -103,11 +78,4 @@ export default function handleCardClick(cardsData) {
 
 // добавление карточек на страницу при первой загрузке с помощью
 // класса Section и его методов
-const cardList = new Section({items: initialCards, renderer: (item) => {
-  const card = new Card(item, '#card-template', handleCardClick);
-  const cardElement = card.generateCard();
-  cardList.addItem(cardElement);
-}
-}, '.places__container');
-
-cardList.renderItems();
+cardList.renderItems({items: initialCards});

@@ -9,7 +9,7 @@ export default class UserInfo {
     this._profileDataObj.specialty = this._specialty.textContent;
     return this._profileDataObj;
   }
-  setUserInfo([name, specialty]) {
+  setUserInfo({name, specialty}) {
     this._name.textContent = name;
     this._specialty.textContent = specialty;
   }

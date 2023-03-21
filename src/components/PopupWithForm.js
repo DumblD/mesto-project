@@ -9,22 +9,24 @@ export default class PopupWithForm extends Popup {
   }
 
   _getInputValues() {
-    const inputValues = this._inputElements.map((input) => {
-      return input.value;
+    const inputValues = new Object();
+    this._inputElements.forEach((input) => {
+      inputValues[input.name] = input.value;
     });
     return inputValues;
   }
 
-  _setInputValues({name, specialty}) {
-    this._inputElements[0].value = name;
-    this._inputElements[1].value = specialty;
+  setInputValues(values) {
+    this._inputElements.forEach((input) => {
+      input.value = values[input.name];
+    });
   }
 
   _resetForm() {
     this._formElement.reset();
   }
 
-  _getFormElement() {
+  getFormElement() {
     return this._formElement;
   }
 
@@ -37,12 +39,13 @@ export default class PopupWithForm extends Popup {
         this.close();
       }
     });
-    this._formElement.addEventListener('submit', (ev) => {this._handleFormSubmit(ev)});
+    this._formElement.addEventListener('submit', (ev) => {
+      this._handleFormSubmit(ev, this._getInputValues());
+    });
   }
 
   close() {
-    this._popup.classList.remove('popup_opened');
-    document.removeEventListener('keydown', this._escClose);
+    super.close();
     this._resetForm();
   }
 }

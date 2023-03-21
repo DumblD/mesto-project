@@ -1,14 +1,4 @@
 export default class FormValidator {
-
-  static validationData = {
-    formSelector: '.popup__form',
-    inputSelector: '.popup__input',
-    submitButtonSelector: '.popup__button',
-    inactiveButtonClass: 'popup__button_disabled',
-    inputErrorClass: 'popup__input_type_error',
-    errorClass: 'popup__error_visible'
-  };
-
   constructor(validationData, formElement) {
     this._configData = validationData;
     this._formElement = formElement;

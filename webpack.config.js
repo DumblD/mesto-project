@@ -36,7 +36,7 @@ module.exports = {
                 type: 'asset/resource',
                 generator: {
                     filename: "images/[name][hash][ext]"
-                },
+                }
             },
             {
                 // регулярное выражение, которое ищет все файлы с такими расширениями
@@ -44,7 +44,7 @@ module.exports = {
                 type: 'asset/resource',
                 generator: {
                     filename: "fonts/[name][hash][ext]"
-                },
+                }
             },
             {
                 // применять это правило только к CSS-файлам
