@@ -25,23 +25,19 @@ const userInfo = new UserInfo('.profile__name', '.profile__specialty');
 const popupImgScaled = new PopupWithImage('#popupImgScaled');
 popupImgScaled.setEventListeners();
 
-const popupEditForm = new PopupWithForm('#popupEditForm', {handleFormSubmit: (ev, inputValues) => {
-  ev.preventDefault();
+const popupEditForm = new PopupWithForm('#popupEditForm', {handleFormSubmit: (inputValues) => {
   userInfo.setUserInfo(inputValues);
   popupEditForm.close();
 }
 });
 popupEditForm.setEventListeners();
 
-const popupAddForm = new PopupWithForm('#popupAddForm', {handleFormSubmit: (ev, inputValues) => {
-  ev.preventDefault();
+const popupAddForm = new PopupWithForm('#popupAddForm', {handleFormSubmit: (inputValues) => {
   const {placeTitle: name, placeLink: link} = inputValues;
   const valuesToCreateCard = new Object();
   valuesToCreateCard.name = name;
   valuesToCreateCard.link = link;
-  const dataToCreateCard = new Array();
-  dataToCreateCard.push(valuesToCreateCard);
-  cardList.renderItems({items: dataToCreateCard}); // рендерим карточку с помощью класса Section
+  cardList.renderer(valuesToCreateCard); // рендерим карточку с помощью экземпляра класса Section
   popupAddForm.close();
 }
 });
