@@ -10,11 +10,21 @@ import EditButton from '../components/EditButton.js';
 import {validationData} from '../utils/constants.js'
 import {initialCards} from '../utils/initialCards.js'
 
+// функция добавления увеличенного изображения карточки
+// в popup для 'изображений с исходным соотношением сторон/размером'
+function handleCardClick(cardsData) {
+  popupImgScaled.open(cardsData);
+}
+
+function createCardItem(inputValuesObj) {
+  const card = new Card(inputValuesObj, '#card-template', handleCardClick);
+  return card.generateCard();
+}
+
 //создание экземпляра класса Section
 const cardList = new Section({renderer: (item) => {
-  const card = new Card(item, '#card-template', handleCardClick);
-  const cardElement = card.generateCard();
-  cardList.addItem(cardElement);
+  const card = createCardItem(item);
+  cardList.addItem(card);
 }
 }, '.places__container');
 
@@ -37,7 +47,7 @@ const popupAddForm = new PopupWithForm('#popupAddForm', {handleFormSubmit: (inpu
   const valuesToCreateCard = new Object();
   valuesToCreateCard.name = name;
   valuesToCreateCard.link = link;
-  cardList.renderer(valuesToCreateCard); // рендерим карточку с помощью экземпляра класса Section
+  cardList.addItem(createCardItem(valuesToCreateCard)); // рендерим карточку с помощью экземпляра класса Section
   popupAddForm.close();
 }
 });
@@ -65,12 +75,6 @@ const profileAddButton = new EditButton ('.profile__add-button', {handleEditButt
 }
 });
 profileAddButton.setEventListeners();
-
-// функция добавления увеличенного изображения карточки
-// в popup для 'изображений с исходным соотношением сторон/размером'
-export default function handleCardClick(cardsData) {
-  popupImgScaled.open(cardsData);
-}
 
 // добавление карточек на страницу при первой загрузке с помощью
 // класса Section и его методов

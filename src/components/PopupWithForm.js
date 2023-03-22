@@ -15,16 +15,13 @@ export default class PopupWithForm extends Popup {
     // для popup-ов с формами расширяем метод close()
   // для сброса значений форм при закрытии
   close() {
-    this._popup.classList.remove('popup_opened');
-    document.removeEventListener('keydown', this._escClose);
+    super.close();
     this._resetForm();
   }
 
-  _handleEscClose(ev) { // функция закрытия popup
-    if (ev.key === "Escape") { // при клике на клавишу Esc
-      this.close();  // для popup-ов с формами расширяем метод _handleEscClose()
-    }                // для сброса значений форм при закрытии
-  };    // используем не родительский close()
+  _handleEscClose(ev) {
+    super._handleEscClose(ev);
+  }
 
   _getInputValues() {
     const inputValues = new Object();
@@ -45,14 +42,7 @@ export default class PopupWithForm extends Popup {
   }
 
   setEventListeners() {
-    this._buttonClose.addEventListener('click', () => {
-      this.close();
-    });
-    this._popup.addEventListener('mousedown', (ev) => { // добавить слушателя на каждый popup на странице
-      if (ev.currentTarget === ev.target) { // для закрытия popup при клике по затемненой области (оверлэю)
-        this.close();
-      }
-    });
+    super.setEventListeners();
     this._formElement.addEventListener('submit', (ev) => {
       ev.preventDefault();
       this._handleFormSubmit(this._getInputValues());
