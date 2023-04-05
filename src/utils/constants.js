@@ -6,3 +6,9 @@ export const validationData = {
   inputErrorClass: 'popup__input_type_error',
   errorClass: 'popup__error_visible'
 };
+
+export const profileDataSelectors = {
+  nameSelector: '.profile__name',
+  specialtySelector: '.profile__specialty',
+  imgSelector: '.profile__img'
+};

@@ -1,0 +1,7 @@
+.card__like-container {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: min-content min-content;
+  row-gap: 3px;
+  margin-right: 20px;
+}
