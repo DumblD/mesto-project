@@ -20,10 +20,6 @@ export default class PopupWithForm extends Popup {
     this._resetForm();
   }
 
-  _handleEscClose(ev) {
-    super._handleEscClose(ev);
-  }
-
   _getInputValues() {
     const inputValues = new Object();
     this._inputElements.forEach((input) => {
