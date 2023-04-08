@@ -75,36 +75,7 @@ const api = new Api({
 });
 
 // создание экземпляра класса UserInfo
-const userInfo = new UserInfo(
-  profileDataSelectors,
-  {
-    handleSetUserInfo: ({ name, specialty }) => {
-      // поскольку проверка форм уже осуществляется на стороне клиента -
-      // проверяем пришли ли значения с сервера
-      if ((userInfo.profileName.textContent && userInfo.profileSpecialty.textContent)) {
-        return api.updateUserInfo(name, specialty)
-          .then(() => {
-            userInfo.profileName.textContent = name;
-            userInfo.profileSpecialty.textContent = specialty;
-          })
-      } else {
-        return Promise.reject("Ошибка получения данных с сервера. Редактирование информации не возможно");
-      }
-    },
-    handleupdateAvatar: (avatarLink) => {
-      // поскольку проверка форм уже осуществляется на стороне клиента -
-      // проверяем пришли ли значения с сервера
-      if ((userInfo.profileAvatar.style.backgroundImage)) {
-        return api.updateUserAvatar(avatarLink)
-          .then(() => {
-            userInfo.profileAvatar.style.backgroundImage = "url(" + `${avatarLink}` + ")";
-          })
-      } else {
-        return Promise.reject("Ошибка получения данных с сервера. Редактирование информации не возможно");
-      }
-    }
-  }
-);
+const userInfo = new UserInfo(profileDataSelectors);
 
 //создание экземпляра класса Section
 const cardList = new Section({
@@ -121,7 +92,15 @@ popupImgScaled.setEventListeners();
 const popupEditForm = new PopupWithForm('#popupEditForm', {
   handleFormSubmit: (inputValues, buttonSubmit) => {
     renderLoading(true, buttonSubmit);
-    userInfo.setUserInfo(inputValues)
+    // поскольку проверка форм уже осуществляется на стороне клиента -
+    // проверяем пришли ли значения с сервера ->
+    // если к обращению на сервер возникла ошибка (данные не пришли),
+    // метод _checkServerResponseState класса API выведет её и
+    // обновить информацию не получится
+    api.updateUserInfo(inputValues.name, inputValues.specialty)
+      .then((userData) => {
+        userInfo.setUserInfo(userData);
+      })
       .then(() => {
         popupEditForm.close();
       })
@@ -162,7 +141,15 @@ const popupUpdateAvatar = new PopupWithForm('#popupUpdateAvatar', {
   handleFormSubmit: (inputValues, buttonSubmit) => {
     const { avatarLink } = inputValues;
     renderLoading(true, buttonSubmit);
-    userInfo.updateAvatar(avatarLink)
+    // поскольку проверка форм уже осуществляется на стороне клиента -
+    // проверяем пришли ли значения с сервера ->
+    // если к обращению на сервер возникла ошибка (данные не пришли),
+    // метод _checkServerResponseState класса API выведет её и
+    // обновить информацию не получится
+    api.updateUserAvatar(avatarLink)
+      .then(() => {
+        userInfo.profileAvatar.style.backgroundImage = "url(" + `${avatarLink}` + ")";
+      })
       .then(() => {
         popupUpdateAvatar.close();
       })
@@ -205,26 +192,14 @@ profileEditButton.addEventListener('click', profileEditButtonAction);
 profileAddButton.addEventListener('click', profileAddButtonAction);
 profileImgEditButton.addEventListener('click', profileImgEditButtonAction);
 
-const profileData = api.getUserInfo();
-profileData
-  .then(({ name, about, avatar, _id }) => {
+Promise.all([api.getUserInfo(), api.getInitialCards()])
+  .then((data) => {
+    const { name, about, avatar, _id } = data[0];
     userInfo.profileName.textContent = name;
     userInfo.profileSpecialty.textContent = about;
     userInfo.profileAvatar.style.backgroundImage = 'url(' + `${avatar}` + ')';
     userInfo.userId = _id;
-  })
-  .catch((err) => alert(err));
-
-// добавление карточек на страницу при первой загрузке
-Promise.all([profileData])
-  .then(() => {
-    const initialCards = api.getInitialCards();
-    initialCards
-      .then((data) => {
-        data.reverse();
-        cardList.renderItems({ items: data });
-      })
-      .catch((err) => alert(err));
+    cardList.renderItems({ items: data[1].reverse() });
   })
   .catch((err) => { // снимаем обработчики у кнопок редактирования профиля,
     //если информация о пользователе не была загружена с сервера
